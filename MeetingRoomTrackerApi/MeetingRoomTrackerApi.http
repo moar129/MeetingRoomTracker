@@ -1,0 +1,6 @@
+@MeetingRoomTrackerApi_HostAddress = http://localhost:5111
+
+GET {{MeetingRoomTrackerApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
