@@ -53,5 +53,12 @@ namespace MeetingRoomTrackerLib.Repos
             }
             return roomToBeDeleted!;
         }
+
+        public Room Create(Room roomToBeCreated)
+        {
+            _context.Rooms.Add(roomToBeCreated);
+            _context.SaveChanges();
+            return roomToBeCreated;
+        }
     }
 }
