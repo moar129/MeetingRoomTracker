@@ -30,7 +30,7 @@ namespace MeetingRoomTrackerLib.Models
 
         public override string ToString()
         {
-            return $"Id: {Id}, RoomId: {RoomId}, StartEvent: {StartEvent}, EndEvent: {EndEvent}, Bookig: {IntervalTimer}";
+            return $"Id: {Id}, RoomId: {RoomId}, StartEvent: {StartEvent:dd.MM.yyyy HH:mm:ss}, EndEvent: {EndEvent:dd.MM.yyyy HH:mm:ss}, IntervalTimer: {IntervalTimer:dd.MM.yyyy HH:mm:ss}";
         }
 
     }

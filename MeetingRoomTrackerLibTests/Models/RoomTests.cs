@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MeetingRoomTrackerLib;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace MeetingRoomTrackerLibTests.Models
 {
@@ -11,21 +13,33 @@ namespace MeetingRoomTrackerLibTests.Models
     public class RoomTests
     {
         [TestMethod()]
-        public void RoomTest()
+        public void Test_construktor()
         {
-            Assert.Fail();
+            
+            var room = new Room();
+            Assert.IsNotNull(room);
+
+            
         }
 
         [TestMethod()]
-        public void RoomTest1()
+        public void Test_the_maine_construktor()
         {
-            Assert.Fail();
+            var roomToBeAdded = new Room()
+            {
+                Name = "test",
+                RoomType = RoomTypeEnum.Mødelokale,
+                Building = BuildingEnum.A,
+                Floor = 2
+            };
+
+            Assert.AreEqual(roomToBeAdded.Name, "test");
+            Assert.AreEqual(roomToBeAdded.RoomType, RoomTypeEnum.Mødelokale);
+            Assert.AreEqual(roomToBeAdded.Building, BuildingEnum.A);
+            Assert.AreEqual(roomToBeAdded.Floor, 2);
+
         }
 
-        [TestMethod()]
-        public void ToStringTest()
-        {
-            Assert.Fail();
-        }
+        
     }
 }

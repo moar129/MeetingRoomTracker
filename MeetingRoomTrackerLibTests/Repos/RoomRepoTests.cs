@@ -38,37 +38,93 @@ namespace MeetingRoomTrackerLib.Repos.Tests
                 Building = BuildingEnum.A,
                 Floor = 2
             };
-            var addedRoom = _repo.Add(roomToBeAdded);
-            Assert.IsNotNull(addedRoom);
-            Assert.AreEqual(1, addedRoom.Id);
-            Assert.AreEqual(roomToBeAdded.Name, addedRoom.Name);
+
+
+             _repo.Add(roomToBeAdded);
+            
+            
+            Assert.AreEqual(1, _repo.GetAll().Count());
+            Assert.AreEqual(roomToBeAdded.Name, _repo.GetById(1).Name);
 
         }
 
         [TestMethod()]
         public void GetAllRoomTest()
         {
+            var roomToBeAdded = new Room()
+            {
+                Name = "test",
+                RoomType = RoomTypeEnum.Mødelokale,
+                Building = BuildingEnum.A,
+                Floor = 2
+            };
+            var roomToBeAdded2 = new Room()
+            {
+                Name = "test2",
+                RoomType = RoomTypeEnum.Mødelokale,
+                Building = BuildingEnum.A,
+                Floor = 2
+            };
+
+            _repo.Add(roomToBeAdded);
+            _repo.Add(roomToBeAdded2);
+
             var rooms = _repo.GetAll();
             Assert.IsNotNull(rooms);
-            Assert.AreEqual(0, rooms.Count());
+            Assert.AreEqual(2, rooms.Count());
+
+           
+           
         }
 
         [TestMethod()]
         public void GetByIdTest()
         {
-            Assert.Fail();
+            var roomToBeAdded = new Room()
+            {
+                Name = "test",
+                RoomType = RoomTypeEnum.Mødelokale,
+                Building = BuildingEnum.A,
+                Floor = 2
+            };
+            _repo.Add(roomToBeAdded);
+            var room = _repo.GetById(1);
+            Assert.AreEqual(roomToBeAdded.Name, room.Name);
+            
         }
 
         [TestMethod()]
         public void UpdateTest()
         {
-            Assert.Fail();
+            var roomToBeUpdated = new Room()
+            {
+                Name = "test",
+                RoomType = RoomTypeEnum.Mødelokale,
+                Building = BuildingEnum.A,
+                Floor = 2
+            };
+            _repo.Add(roomToBeUpdated);
+            roomToBeUpdated.Name = "test2";
+            _repo.Update(roomToBeUpdated, 1);
+            var room = _repo.GetById(1);
+            Assert.AreEqual(roomToBeUpdated.Name, room.Name);
+            
         }
 
         [TestMethod()]
         public void DeleteTest()
         {
-            Assert.Fail();
+            var roomToBeDelete = new Room()
+            {
+                Name = "test",
+                RoomType = RoomTypeEnum.Mødelokale,
+                Building = BuildingEnum.A,
+                Floor = 2
+            };
+            _repo.Add(roomToBeDelete);
+            _repo.Delete(1);
+            Assert.AreEqual(0, _repo.GetAll().Count());
+            
         }
     }
 }
