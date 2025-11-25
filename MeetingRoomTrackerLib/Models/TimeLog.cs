@@ -4,6 +4,7 @@ namespace MeetingRoomTrackerLib.Models
     //TODO: Tilføj validering for TimeLog-klassen, Så som at startEvent skal være før endEvent osv.
     public class TimeLog
     {
+        // Overvej om vi skal bruge IntervalTimer, eller om det er overflødigt information.
         public int Id { get; set; }
         public int RoomId { get; set; }
         public DateTime StartEvent { get; set; }
