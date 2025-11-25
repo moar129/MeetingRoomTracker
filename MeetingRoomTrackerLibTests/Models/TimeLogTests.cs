@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MeetingRoomTrackerLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MeetingRoomTrackerLib.Tests
+namespace MeetingRoomTrackerLibTests.Models
 {
     [TestClass()]
     public class TimeLogTests
