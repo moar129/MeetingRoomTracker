@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MeetingRoomTrackerLib.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace MeetingRoomTrackerLib
         
         }
 
-        private DbSet<Room> Rooms { get; set; }
-        private DbSet<TimeLog> TimeLogs { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<TimeLog> TimeLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
