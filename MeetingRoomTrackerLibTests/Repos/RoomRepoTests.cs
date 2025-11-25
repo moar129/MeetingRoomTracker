@@ -18,15 +18,18 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<RMTDbContext>();
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=RMTDb;Integrated Security=True;Connect Timeout=30;Encrypt=False");
-            var context = new RMTDbContext(optionsBuilder.Options);
-            context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Rooms");
+            var options = new DbContextOptionsBuilder<RMTDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // fresh for every test
+                .Options;
+
+            var context = new RMTDbContext(options);
+
             _repo = new RoomRepo(context);
         }
 
+
         [TestMethod()]
-        public void AddTest()
+        public void AddRoomTest()
         {
             var roomToBeAdded = new Room()
             {
@@ -43,9 +46,11 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         }
 
         [TestMethod()]
-        public void GetAllTest()
+        public void GetAllRoomTest()
         {
-            Assert.Fail();
+            var rooms = _repo.GetAll();
+            Assert.IsNotNull(rooms);
+            Assert.AreEqual(0, rooms.Count());
         }
 
         [TestMethod()]
