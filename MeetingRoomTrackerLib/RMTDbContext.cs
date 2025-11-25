@@ -46,8 +46,5 @@ namespace MeetingRoomTrackerLib
             // Call base method
             base.OnModelCreating(modelBuilder);
         }
-
-
-
     }
 }

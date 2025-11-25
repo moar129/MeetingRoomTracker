@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MeetingRoomTrackerLib;
 using Microsoft.EntityFrameworkCore;
+using MeetingRoomTrackerLib.EnumClasses;
 
 namespace MeetingRoomTrackerLib.Repos.Tests
 {
