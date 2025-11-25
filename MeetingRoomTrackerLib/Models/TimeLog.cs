@@ -25,7 +25,8 @@ namespace MeetingRoomTrackerLib.Models
             EndEvent = endEvent;
             IntervalTimer = intervalt;
         }
-
+        public TimeLog()
+        {}
 
         public override string ToString()
         {

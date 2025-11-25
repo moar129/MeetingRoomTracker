@@ -12,7 +12,8 @@ namespace MeetingRoomTrackerLib
     public class RMTDbContext : DbContext
     {
         public RMTDbContext(DbContextOptions<RMTDbContext> options) : base(options) 
-        {}
+        {
+        }
 
         public DbSet<Room> Rooms { get; set; }
         public DbSet<TimeLog> TimeLogs { get; set; }

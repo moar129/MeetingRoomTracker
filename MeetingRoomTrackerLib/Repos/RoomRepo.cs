@@ -16,6 +16,12 @@ namespace MeetingRoomTrackerLib.Repos
         {
             _context = Context;
         }
+        public Room Add(Room roomToBeCreated)
+        {
+            _context.Rooms.Add(roomToBeCreated);
+            _context.SaveChanges();
+            return roomToBeCreated;
+        }
         public IEnumerable<Room> GetAll()
         {
             IEnumerable<Room> rooms = _context.Rooms.ToList();
@@ -52,13 +58,6 @@ namespace MeetingRoomTrackerLib.Repos
                 _context.SaveChanges();
             }
             return roomToBeDeleted!;
-        }
-
-        public Room Create(Room roomToBeCreated)
-        {
-            _context.Rooms.Add(roomToBeCreated);
-            _context.SaveChanges();
-            return roomToBeCreated;
         }
     }
 }
