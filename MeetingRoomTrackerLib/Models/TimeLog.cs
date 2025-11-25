@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MeetingRoomTrackerLib.Models
 {
-     public class TimeLog
+    //TODO: Tilføj validering for TimeLog-klassen, Så som at startEvent skal være før endEvent osv.
+    public class TimeLog
     {
         public int Id { get; set; }
         public int RoomId { get; set; }

@@ -1,5 +1,7 @@
-﻿namespace MeetingRoomTrackerLib
+﻿
+namespace MeetingRoomTrackerLib
 {
+    // TODO: Tilføj validering for Room-klassen, Så som en string må ikke være tom, Floor skal være positiv osv.
     public class Room
     {
         public int Id { get; set; }
