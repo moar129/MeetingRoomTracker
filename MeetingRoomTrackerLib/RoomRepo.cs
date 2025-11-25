@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MeetingRoomTrackerLib
 {
-    class RoomRepo
+    public class RoomRepo
     {
+
     }
 }

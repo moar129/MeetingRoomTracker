@@ -4,18 +4,18 @@
     {
         public int Id { get; set; }
         public bool Status { get; set; }
-        public RumTypeEnum RumType { get; set; }
+        public RoomTypeEnum RoomType { get; set; }
         public string Name { get; set; }
-        public BygningEnum Bygning { get; set; }
+        public BuildingEnum Building { get; set; }
         public int Floor { get; set; }
 
-        public Room(int id, bool status, RumTypeEnum rumType, string name, BygningEnum bygning, int floor)
+        public Room(int id, bool status, RoomTypeEnum rumType, string name, BuildingEnum bygning, int floor)
         {
             Id = id;
             Status = status;
-            RumType = rumType;
+            RoomType = rumType;
             Name = name;
-            Bygning = bygning;
+            Building = bygning;
             Floor = floor;
         }
         public Room()
@@ -26,7 +26,7 @@
 
         public override string ToString()
         {
-            return $"Room ID: {Id}, Name: {Name}, Type: {RumType}, Building: {Bygning}, Floor: {Floor}, Status: {(Status ? "Occupied" : "Available")}";
+            return $"Room ID: {Id}, Name: {Name}, Type: {RoomType}, Building: {Building}, Floor: {Floor}, Status: {(Status ? "Occupied" : "Available")}";
         }
     }
 }

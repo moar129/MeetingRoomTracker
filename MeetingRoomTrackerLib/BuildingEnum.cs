@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeetingRoomTrackerLib
 {
-    public enum BygningEnum
+    public enum BuildingEnum
     {
         A,
         B,

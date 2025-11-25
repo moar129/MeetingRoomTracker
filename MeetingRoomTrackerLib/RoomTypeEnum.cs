@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeetingRoomTrackerLib
 {
-    public enum RumTypeEnum
+    public enum RoomTypeEnum
     {
         KlasseLokale,
         Mødelokale,
