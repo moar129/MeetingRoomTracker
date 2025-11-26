@@ -25,19 +25,29 @@ namespace MeetingRoomTrackerLib.Repos.Tests
             var context = new RMTDbContext(options);
 
             _repo = new RoomRepo(context);
+
+        }
+        // Centralized way to create test rooms
+        private Room CreateRoom(
+            string name = "test",
+            RoomTypeEnum roomType = RoomTypeEnum.Mødelokale,
+            BuildingEnum building = BuildingEnum.A,
+            int floor = 2)
+        {
+            return new Room
+            {
+                Name = name,
+                RoomType = roomType,
+                Building = building,
+                Floor = floor
+            };
         }
 
 
         [TestMethod()]
         public void AddRoomTest()
         {
-            var roomToBeAdded = new Room()
-            {
-                Name = "test",
-                RoomType = RoomTypeEnum.Mødelokale,
-                Building = BuildingEnum.A,
-                Floor = 2
-            };
+            var roomToBeAdded = CreateRoom("test");
 
 
              _repo.Add(roomToBeAdded);
@@ -51,20 +61,8 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         [TestMethod()]
         public void GetAllRoomTest()
         {
-            var roomToBeAdded = new Room()
-            {
-                Name = "test",
-                RoomType = RoomTypeEnum.Mødelokale,
-                Building = BuildingEnum.A,
-                Floor = 2
-            };
-            var roomToBeAdded2 = new Room()
-            {
-                Name = "test2",
-                RoomType = RoomTypeEnum.Mødelokale,
-                Building = BuildingEnum.A,
-                Floor = 2
-            };
+            var roomToBeAdded = CreateRoom("Test1");
+            var roomToBeAdded2 = CreateRoom("Test2");
 
             _repo.Add(roomToBeAdded);
             _repo.Add(roomToBeAdded2);
@@ -72,21 +70,13 @@ namespace MeetingRoomTrackerLib.Repos.Tests
             var rooms = _repo.GetAll();
             Assert.IsNotNull(rooms);
             Assert.AreEqual(2, rooms.Count());
-
-           
            
         }
 
         [TestMethod()]
         public void GetByIdTest()
         {
-            var roomToBeAdded = new Room()
-            {
-                Name = "test",
-                RoomType = RoomTypeEnum.Mødelokale,
-                Building = BuildingEnum.A,
-                Floor = 2
-            };
+            var roomToBeAdded = CreateRoom("test");
             _repo.Add(roomToBeAdded);
             var room = _repo.GetById(1);
             Assert.AreEqual(roomToBeAdded.Name, room.Name);
@@ -96,13 +86,7 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         [TestMethod()]
         public void UpdateTest()
         {
-            var roomToBeUpdated = new Room()
-            {
-                Name = "test",
-                RoomType = RoomTypeEnum.Mødelokale,
-                Building = BuildingEnum.A,
-                Floor = 2
-            };
+            var roomToBeUpdated = CreateRoom("test");
             _repo.Add(roomToBeUpdated);
             roomToBeUpdated.Name = "test2";
             _repo.Update(roomToBeUpdated, 1);
@@ -114,13 +98,7 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         [TestMethod()]
         public void DeleteTest()
         {
-            var roomToBeDelete = new Room()
-            {
-                Name = "test",
-                RoomType = RoomTypeEnum.Mødelokale,
-                Building = BuildingEnum.A,
-                Floor = 2
-            };
+            var roomToBeDelete = CreateRoom("test");
             _repo.Add(roomToBeDelete);
             _repo.Delete(1);
             Assert.AreEqual(0, _repo.GetAll().Count());
