@@ -1,12 +1,18 @@
 ﻿
 namespace MeetingRoomTrackerLib.Models
 {
+    /// <summary>
+    /// TimeLog class represents a log entry for a meeting room sensor with start and end times.
+    /// </summary>
     public class TimeLog
     {
         private DateTime _startEvent;
         private DateTime _endEvent;
         public int Id { get; set; }
         public int RoomId { get; set; }
+        /// <summary>
+        /// Start time of the event with validation to ensure it is before EndEvent and year is 2024 or later.
+        /// </summary>
         public DateTime StartEvent 
         { 
             get => _startEvent; 
@@ -28,6 +34,9 @@ namespace MeetingRoomTrackerLib.Models
                 _startEvent = value;
             } 
         }
+        /// <summary>
+        /// End time of the event with validation to ensure it is after StartEvent and year is 2024 or later.
+        /// </summary>
         public DateTime EndEvent 
         {
             get => _endEvent; 
@@ -48,6 +57,13 @@ namespace MeetingRoomTrackerLib.Models
         }
         public virtual Room Room { get; set; } = null;
 
+        /// <summary>
+        /// TimeLog constructor with parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="roomId"></param>
+        /// <param name="startEvent"></param>
+        /// <param name="endEvent"></param>
         public TimeLog(int id, int roomId, DateTime startEvent, DateTime endEvent)
         {
             Id = id;
@@ -55,6 +71,9 @@ namespace MeetingRoomTrackerLib.Models
             StartEvent = startEvent;
             EndEvent = endEvent;
         }
+        /// <summary>
+        /// TimeLog default constructor mostly for EF
+        /// </summary>
         public TimeLog()
         {}
 

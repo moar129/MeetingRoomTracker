@@ -1,8 +1,10 @@
-﻿
-using MeetingRoomTrackerLib.EnumClasses;
+﻿using MeetingRoomTrackerLib.EnumClasses;
 
 namespace MeetingRoomTrackerLib
 {
+    /// <summary>
+    /// Represents a meeting room with properties such as ID, status, type, name, building, and floor.
+    /// </summary>
     public class Room
     {
         private string _name;
@@ -10,6 +12,9 @@ namespace MeetingRoomTrackerLib
         public int Id { get; set; }
         public bool Status { get; set; }
         public RoomTypeEnum RoomType { get; set; }
+        /// <summary>
+        /// Name of the room with validation to ensure it is not null or empty.
+        /// </summary>
         public string Name 
         {
             get { return _name; }
@@ -23,6 +28,9 @@ namespace MeetingRoomTrackerLib
             }
         }
         public BuildingEnum Building { get; set; }
+        /// <summary>
+        /// Floor number with validation to ensure it is non-negative.
+        /// </summary>
         public int Floor 
         {
             get { return _floor; }
@@ -35,7 +43,15 @@ namespace MeetingRoomTrackerLib
                 _floor = value;
             } 
         }
-
+        /// <summary>
+        /// creates a room with parameters
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <param name="rumType"></param>
+        /// <param name="name"></param>
+        /// <param name="bygning"></param>
+        /// <param name="floor"></param>
         public Room(int id, bool status, RoomTypeEnum rumType, string name, BuildingEnum bygning, int floor)
         {
             Id = id;
@@ -45,6 +61,9 @@ namespace MeetingRoomTrackerLib
             Building = bygning;
             Floor = floor;
         }
+        /// <summary>
+        /// Creates a room without parameters mostly used by Entity Framework
+        /// </summary>
         public Room()
         {
         }
