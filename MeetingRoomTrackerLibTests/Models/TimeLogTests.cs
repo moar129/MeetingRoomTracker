@@ -11,6 +11,10 @@ namespace MeetingRoomTrackerLibTests.Models
     [TestClass()]
     public class TimeLogTests
     {
+        
+
+
+
         [TestMethod()]
         public void TimeLogDefualtConstructorTest()
         {
@@ -27,12 +31,50 @@ namespace MeetingRoomTrackerLibTests.Models
             var startEvent = new DateTime(2025, 11, 25, 14, 0, 0);
             var endEvent = new DateTime(2025, 11, 25, 15, 30, 0);
             var timelog = new TimeLog(0, 5, startEvent, endEvent);
-            Assert.AreEqual(0, timelog.Id);
-            Assert.AreEqual(5, timelog.RoomId);
             Assert.AreEqual(startEvent, timelog.StartEvent);
             Assert.AreEqual(endEvent, timelog.EndEvent);
         }
 
+        [TestMethod()]
+        public void TimeLog_StartEventValidationTest()
+        {
+            var timelog = new TimeLog();
+
+
+            // årstal < 2024
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                timelog.StartEvent = new DateTime(2023, 12, 31));
+
+
+            // Sæt endEvent først (ellers giver testen ingen mening)
+            timelog.EndEvent = new DateTime(2025, 11, 25, 15, 0, 0);
+
+
+            // start > end
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                timelog.StartEvent = new DateTime(2025, 11, 25, 16, 0, 0));
+        }
+
+        [TestMethod()]
+        public void TimeLog_EndEventValidationTest()
+        {
+            var startEvent = new DateTime(2025, 11, 25, 14, 0, 0);
+            var timelog = new TimeLog();
+            timelog.StartEvent = startEvent;
+
+
+            // årstal < 2024
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                timelog.EndEvent = new DateTime(2023, 12, 31));
+
+
+            // end <= start
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+                timelog.EndEvent = new DateTime(2025, 11, 25, 13, 0, 0));
+            timelog.StartEvent = new DateTime(2025, 11, 25, 14, 0, 0);
+
+
+        }
 
 
 

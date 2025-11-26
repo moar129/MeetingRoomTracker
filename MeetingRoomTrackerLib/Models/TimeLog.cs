@@ -9,33 +9,39 @@ namespace MeetingRoomTrackerLib.Models
         public int RoomId { get; set; }
         public DateTime StartEvent 
         { 
-            get { return _startEvent; }
+            get => _startEvent; 
             set
             {
-                if (value < EndEvent)
+                // vi smider en fjel hvis startEvent er større end endEvent
+                if ( value > _endEvent && _endEvent != default(DateTime))
                 {
-                    throw new ArgumentException("StartEvent must be earlier than EndEvent.");
+                    throw new ArgumentOutOfRangeException(nameof(StartEvent));
                 }
+                // vi smider en fejl hvis årstallet er mindre end 2024
                 if (value.Year < 2024)
                 {
-                    throw new ArgumentException("StartEvent year must be greater than 2024.");
+                    throw new ArgumentOutOfRangeException(nameof(StartEvent));
                 }
+
+                
 
                 _startEvent = value;
             } 
         }
         public DateTime EndEvent 
         {
-            get { return _endEvent; }
+            get => _endEvent; 
             set
             {
-                if (value < StartEvent)
+                // vi smider en fejl hvis endEvent er mindre end startEvent
+                if ( value <= _startEvent && _startEvent != default(DateTime))
                 {
-                    throw new ArgumentException("EndEvent must be later than StartEvent.");
+                    throw new ArgumentOutOfRangeException(nameof(EndEvent));
                 }
+                // vi smider en fejl hvis årstallet er mindre end 2024
                 if (value.Year < 2024)
                 {
-                    throw new ArgumentException("EndEvent year must be greater than 2024.");
+                    throw new ArgumentOutOfRangeException(nameof(EndEvent));
                 }
                 _endEvent = value;
             } 
