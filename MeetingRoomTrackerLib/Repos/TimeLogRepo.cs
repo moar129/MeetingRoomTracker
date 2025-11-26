@@ -43,7 +43,6 @@ namespace MeetingRoomTrackerLib.Repos
                 existingTimeLog.RoomId = timeLogToBeUpdated.RoomId;
                 existingTimeLog.StartEvent = timeLogToBeUpdated.StartEvent;
                 existingTimeLog.EndEvent = timeLogToBeUpdated.EndEvent;
-                existingTimeLog.IntervalTimer = timeLogToBeUpdated.IntervalTimer;
                 _context.SaveChanges();
             }
             return existingTimeLog;

@@ -12,13 +12,13 @@ namespace MeetingRoomTrackerLib.Models
             get { return _startEvent; }
             set
             {
-                if (value > EndEvent)
+                if (value < EndEvent)
                 {
                     throw new ArgumentException("StartEvent must be earlier than EndEvent.");
                 }
-                if (value.Year > 2024)
+                if (value.Year < 2024)
                 {
-                    throw new ArgumentException("StartEvent year cannot be greater than 2024.");
+                    throw new ArgumentException("StartEvent year must be greater than 2024.");
                 }
 
                 _startEvent = value;
@@ -33,9 +33,9 @@ namespace MeetingRoomTrackerLib.Models
                 {
                     throw new ArgumentException("EndEvent must be later than StartEvent.");
                 }
-                if (value.Year > 2024)
+                if (value.Year < 2024)
                 {
-                    throw new ArgumentException("EndEvent year cannot be greater than 2024.");
+                    throw new ArgumentException("EndEvent year must be greater than 2024.");
                 }
                 _endEvent = value;
             } 
