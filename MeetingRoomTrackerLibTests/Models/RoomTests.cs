@@ -56,5 +56,13 @@ namespace MeetingRoomTrackerLibTests.Models
             var room = new Room();
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => room.Floor = -1);
         }
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            var room = new Room(1, true, RoomTypeEnum.Mødelokale, "TestRoom", BuildingEnum.B, 3);
+            var expectedString = "Room ID: 1, Name: TestRoom, Type: Mødelokale, Building: B, Floor: 3, Status: Occupied";
+            Assert.AreEqual(expectedString, room.ToString());
+            Assert.IsNotNull(room.ToString());
+        }
     }
 }
