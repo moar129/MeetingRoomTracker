@@ -12,13 +12,29 @@ namespace MeetingRoomTrackerLibTests.Models
     public class TimeLogTests
     {
         [TestMethod()]
-        public void TimeLogConstructorTest()
+        public void TimeLogDefualtConstructorTest()
         {
             var timelog = new TimeLog();
             Assert.IsNotNull(timelog);
 
 
         }
+
+
+        [TestMethod()]
+        public void TimeLog_ParameterizedConstructorTest()
+        {
+            var startEvent = new DateTime(2025, 11, 25, 14, 0, 0);
+            var endEvent = new DateTime(2025, 11, 25, 15, 30, 0);
+            var timelog = new TimeLog(0, 5, startEvent, endEvent);
+            Assert.AreEqual(0, timelog.Id);
+            Assert.AreEqual(5, timelog.RoomId);
+            Assert.AreEqual(startEvent, timelog.StartEvent);
+            Assert.AreEqual(endEvent, timelog.EndEvent);
+        }
+
+
+
 
 
         [TestMethod()]
