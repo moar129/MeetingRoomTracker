@@ -17,7 +17,7 @@ namespace MeetingRoomTrackerLib
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("Name cannot be null or empty.");
+                    throw new ArgumentNullException("Name cannot be null or empty.");
                 }
                 _name = value;
             }
@@ -30,7 +30,7 @@ namespace MeetingRoomTrackerLib
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException("Floor must be a non-negative integer.");
+                    throw new ArgumentOutOfRangeException("Floor must be a non-negative integer.");
                 }
                 _floor = value;
             } 

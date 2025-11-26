@@ -14,7 +14,7 @@ namespace MeetingRoomTrackerLibTests.Models
     public class RoomTests
     {
         [TestMethod()]
-        public void Test_construktor()
+        public void defaultConstructorTest()
         {
             
             var room = new Room();
@@ -24,11 +24,12 @@ namespace MeetingRoomTrackerLibTests.Models
         }
 
         [TestMethod()]
-        public void Test_the_maine_construktor()
+        public void construktorTest()
         {
             var roomToBeAdded = new Room()
             {
                 Name = "test",
+                Status = true,
                 RoomType = RoomTypeEnum.Mødelokale,
                 Building = BuildingEnum.A,
                 Floor = 2
@@ -40,7 +41,20 @@ namespace MeetingRoomTrackerLibTests.Models
             Assert.AreEqual(roomToBeAdded.Floor, 2);
 
         }
-
-        
+        [TestMethod()]
+        public void nameTest()
+        {
+            var room = new Room();
+            Console.WriteLine(room.ToString());
+            Assert.ThrowsException<ArgumentNullException>(() => room.Name = "");
+            Assert.ThrowsException<ArgumentNullException>(() => room.Name = "   ");
+            Assert.ThrowsException<ArgumentNullException>(() => room.Name = null);
+        }
+        [TestMethod()]
+        public void floorTest()
+        {
+            var room = new Room();
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => room.Floor = -1);
+        }
     }
 }

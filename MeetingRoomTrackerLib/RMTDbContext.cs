@@ -39,7 +39,6 @@ namespace MeetingRoomTrackerLib
                 entity.HasKey(t => t.Id);
                 entity.Property(t => t.StartEvent).IsRequired();
                 entity.Property(t => t.EndEvent).IsRequired();
-                entity.Property(t2 => t2.IntervalTimer).HasDefaultValueSql("GETUTCDATE()");
                 entity.HasOne<Room>(t => t.Room).WithMany().HasForeignKey(t => t.RoomId).OnDelete(DeleteBehavior.Cascade);
                 
             });

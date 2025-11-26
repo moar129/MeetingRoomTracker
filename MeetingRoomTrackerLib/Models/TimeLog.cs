@@ -42,7 +42,7 @@ namespace MeetingRoomTrackerLib.Models
         }
         public virtual Room Room { get; set; } = null;
 
-        public TimeLog(int id, int roomId, DateTime startEvent, DateTime endEvent, DateTime intervalt)
+        public TimeLog(int id, int roomId, DateTime startEvent, DateTime endEvent)
         {
             Id = id;
             RoomId = roomId;
