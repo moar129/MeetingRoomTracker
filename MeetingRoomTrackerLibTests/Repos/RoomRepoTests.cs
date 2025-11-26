@@ -18,8 +18,11 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         [TestInitialize]
         public void TestInitialize()
         {
+            // (UseInMemoryDatabase) In-memory database setup for testing purposes. This tells EF Core to use its InMemory provider instead of a real SQL database.
+            // (databaseName: Guid.NewGuid().ToString()) This generates a unique database name every time using a new GUID.
+            // after use of the test, the in-memory database is discarded, ensuring that each test runs in isolation without any leftover data from previous tests.
             var options = new DbContextOptionsBuilder<RMTDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // fresh for every test
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
 
             var context = new RMTDbContext(options);
