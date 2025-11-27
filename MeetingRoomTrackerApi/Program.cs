@@ -5,6 +5,7 @@ using MeetingRoomTrackerLib.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
@@ -18,39 +19,46 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Add Swagger generation - works in ALL environments
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "Meeting Room Tracker API", Version = "v1" });
+});
 
-// Configure DbContext with SQL Server
+// Database
 var connectionString = builder.Configuration["DB_CONNECTION_STRING"]
                        ?? builder.Configuration.GetConnectionString("DefaultConnection"); // Fallback to DefaultConnection if DB_CONNECTION_STRING is not set
 
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString)); // Use SQL Server
 
-//Console.WriteLine(connectionString.ToString()); // for test af connection string
-builder.Services.AddScoped<ITimeLogService, TimeLogServce>();
 
+// Dependency Injection
+builder.Services.AddScoped<ITimeLogService, TimeLogServce>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRepos<Room>, RoomRepo>();
 builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// Swagger middleware
 app.UseSwagger();
-app.UseSwaggerUI();
+// Enable Swagger UI at the app's root
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Room Tracker API v1");
+    options.RoutePrefix = string.Empty;
+});
+
+// Generate OpenAPI document
+app.MapOpenApi();
+// Optional: Redirect root to Swagger UI (nice touch)
+app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.UseAuthorization();
-
 app.MapControllers();
-
+// Use CORS policy
 app.UseCors("AllowAll");
 
 app.Run();
