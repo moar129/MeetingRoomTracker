@@ -23,8 +23,13 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure DbContext with SQL Server
+var connectionString = builder.Configuration["DB_CONNECTION_STRING"]
+                       ?? builder.Configuration.GetConnectionString("DefaultConnection"); // Fallback to DefaultConnection if DB_CONNECTION_STRING is not set
+
 builder.Services.AddDbContext<RMTDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString)); // Use SQL Server
+
 builder.Services.AddScoped<ITimeLogService, TimeLogServce>();
 
 builder.Services.AddScoped<IRoomService, RoomService>();
