@@ -14,7 +14,7 @@ namespace MeetingRoomTrackerLib.Repos.Tests
     [TestClass()]
     public class RoomRepoTests
     {
-        private static RoomRepo _repo;
+        private static IRepos<Room> _repo;
         [TestInitialize]
         public void TestInitialize()
         {

@@ -13,7 +13,7 @@ namespace MeetingRoomTrackerLib.Repos.Tests
     [TestClass()]
     public class TimeLogRepoTests
     {
-        private static TimeLogRepo _repo;
+        private static IRepos<TimeLog> _repo;
         [TestInitialize]
         public void TestInitialize()
         {
