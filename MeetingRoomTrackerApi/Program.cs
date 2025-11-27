@@ -30,6 +30,7 @@ var connectionString = builder.Configuration["DB_CONNECTION_STRING"]
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString)); // Use SQL Server
 
+//Console.WriteLine(connectionString.ToString()); // for test af connection string
 builder.Services.AddScoped<ITimeLogService, TimeLogServce>();
 
 builder.Services.AddScoped<IRoomService, RoomService>();
