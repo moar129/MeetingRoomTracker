@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MeetingRoomTrackerLib.Repos
 {
-    public class RoomRepo
+    public class RoomRepo: IRepos<Room>
     {
         private RMTDbContext _context;
         public RoomRepo(RMTDbContext Context)

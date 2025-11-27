@@ -7,7 +7,7 @@ using MeetingRoomTrackerLib.Models;
 
 namespace MeetingRoomTrackerLib.Repos
 {
-    public class TimeLogRepo
+    public class TimeLogRepo: IRepos<TimeLog>
     {
         private RMTDbContext _context;
         public TimeLogRepo(RMTDbContext Context)
