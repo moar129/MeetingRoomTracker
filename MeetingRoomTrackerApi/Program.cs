@@ -25,8 +25,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddSingleton<IRepos<Room>, RoomRepo>();
-//builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
+builder.Services.AddScoped<IRepos<Room>, RoomRepo>();
+builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
 
 var app = builder.Build();
 
