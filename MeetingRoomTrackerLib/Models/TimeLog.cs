@@ -55,6 +55,9 @@ namespace MeetingRoomTrackerLib.Models
                 _endEvent = value;
             } 
         }
+        /// <summary>
+        /// Reference to the associated Room object. For EF relationships.
+        /// </summary>
         public virtual Room Room { get; set; } = null;
 
         /// <summary>
