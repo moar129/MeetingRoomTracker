@@ -1,6 +1,7 @@
 using MeetingRoomTrackerLib;
 using MeetingRoomTrackerLib.Models;
 using MeetingRoomTrackerLib.Repos;
+using MeetingRoomTrackerLib.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<ITimeLogService, TimeLogServce>();
 
+builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRepos<Room>, RoomRepo>();
 builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
 

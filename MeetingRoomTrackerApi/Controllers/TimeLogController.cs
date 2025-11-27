@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MeetingRoomTrackerLib;
 using MeetingRoomTrackerLib.Models;
 using MeetingRoomTrackerApi.DTOs;
+using MeetingRoomTrackerLib.Services;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,11 +14,11 @@ namespace MeetingRoomTrackerApi.Controllers
     [ApiController]
     public class TimeLogController : ControllerBase
     {
-        private IRepos<TimeLog> _timeLogRepo;
+        private ITimeLogService _timeLogService;
 
-        public TimeLogController(IRepos<TimeLog> repo)
+        public TimeLogController(ITimeLogService timeLogService)
         {
-            _timeLogRepo = repo;
+            _timeLogService = timeLogService;
         }
 
 
@@ -27,7 +28,7 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpGet]
         public ActionResult <IEnumerable<TimeLog>> GetAll()
         {
-            List<TimeLog> timeLogs = new List<TimeLog>(_timeLogRepo.GetAll());
+            List<TimeLog> timeLogs = _timeLogService.GetAllTimeLogs().ToList();
             if (timeLogs.Count == 0)
             {
                 return NotFound("No time logs found.");
@@ -41,12 +42,15 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<TimeLog> Get([FromRoute]int id)
         {
-            TimeLog? timeLog = _timeLogRepo.GetById(id);
-            if (timeLog == null)
+            try
             {
-                return NotFound($"TimeLog with ID {id} not found.");
+                TimeLog timeLog = _timeLogService.GetTimeLogById(id);
+                return Ok(timeLog);
             }
-            return Ok(timeLog);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message.ToString());
+            }
         }
 
         // POST api/<ValuesController>
@@ -63,12 +67,8 @@ namespace MeetingRoomTrackerApi.Controllers
                     EndEvent = newTimeLog.EndEvent!.Value,
                     RoomId = newTimeLog.RoomId!.Value
                 };
-                _timeLogRepo.Add(timeLogToAdd);
+                _timeLogService.CreateTimeLog(timeLogToAdd);
                 return CreatedAtAction(nameof(Get), new { id = timeLogToAdd.Id }, timeLogToAdd);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                return BadRequest(ex.Message.ToString());
             }
             catch (ArgumentNullException ex)
             {
@@ -89,10 +89,10 @@ namespace MeetingRoomTrackerApi.Controllers
                     EndEvent = timeLog.EndEvent!.Value,
                     RoomId = timeLog.RoomId!.Value
                 };
-                _timeLogRepo.Update(timelogTOUpdate,id);
+                _timeLogService.UpdateTimeLog(timelogTOUpdate);
                 return Ok(timelogTOUpdate);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message.ToString());
             }
@@ -107,7 +107,7 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return Ok(_timeLogRepo.Delete(id));
+            return Ok(_timeLogService.DeleteTimeLog(id));
         }
     }
 }

@@ -4,6 +4,7 @@ using MeetingRoomTrackerLib;
 using MeetingRoomTrackerLib.Repos;
 using MeetingRoomTrackerApi.DTOs;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MeetingRoomTrackerLib.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,10 +14,10 @@ namespace MeetingRoomTrackerApi.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private IRepos<Room> _roomRepo;
-        public RoomsController(IRepos<Room> repo)
+        private readonly IRoomService _roomService;
+        public RoomsController(IRoomService roomService)
         {
-            _roomRepo = repo;
+            _roomService = roomService;
         }
         // GET: api/<RoomsController>
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -24,7 +25,7 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Room>> GetAll()
         {
-            List<Room> rooms = new List<Room>(_roomRepo.GetAll());
+            List<Room> rooms = _roomService.GetAllRooms().ToList();
             if (rooms.Count == 0)
             {
                 return NotFound("No rooms found.");
@@ -32,19 +33,38 @@ namespace MeetingRoomTrackerApi.Controllers
             return Ok(rooms);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        public ActionResult GetStatusService([FromRoute] int id)
+        {
+            try
+            {
+                bool status = _roomService.GetStatus(id);
+                return Ok(status);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message.ToString());
+            }
+        }
+
         // GET api/<RoomsController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public ActionResult<Room> Get([FromRoute]int id)
-        {
-            Room? room = _roomRepo.GetById(id);
-            if (room == null)
+        public ActionResult<Room> Get([FromRoute] int id)
             {
-                return NotFound($"Room with ID {id} not found.");
-            }   
-            return Ok(room);
-        }
+                try
+                {
+                    Room room = _roomService.GetRoomById(id);
+                    return Ok(room);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return NotFound(ex.Message.ToString());
+                }
+            }
 
 
         // POST api/<RoomsController>
@@ -63,8 +83,8 @@ namespace MeetingRoomTrackerApi.Controllers
                     Floor = newRoom.Floor!.Value,
                     Status = false // Default status to false (available)
                 };
-                _roomRepo.Add(roomToAdd);
-                return CreatedAtAction(nameof(Get), new { id = roomToAdd.Id }, roomToAdd);
+                Room createdRoom = _roomService.CreateRoom(roomToAdd);
+                return CreatedAtAction(nameof(Get), new { id = createdRoom.Id }, createdRoom    );
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -92,7 +112,7 @@ namespace MeetingRoomTrackerApi.Controllers
                     Floor = room.Floor!.Value,
                     Status = room.Status!.Value
                 };
-                _roomRepo.Update(roomToUpdate, id);
+                Room updatedRoom = _roomService.UpdateRoom(roomToUpdate);
                 return Ok(roomToUpdate);
                 
             }
@@ -100,7 +120,7 @@ namespace MeetingRoomTrackerApi.Controllers
             {
                 return BadRequest(ex.Message.ToString());
             }
-            catch (ArgumentNullException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message.ToString());
             }
@@ -110,7 +130,7 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return Ok(_roomRepo.Delete(id));
+            return Ok(_roomService.DeleteRoom(id));
 
         }
         
