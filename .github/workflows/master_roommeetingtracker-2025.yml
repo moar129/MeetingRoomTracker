@@ -55,16 +55,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9D4D209CA4DA49DEA13947A1B799C3D9 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E0A216F67DA84F2693B7EFE937D88342 }}
 
-      # ←←← DENNE ENE NYE STEP ER ALT, DU SKAL TILFØJE ←←←
-      - name: Inject DB_CONNECTION_STRING from GitHub Secret
-        uses: azure/cli@v2
-        with:
-          inlineScript: |
-            az webapp config appsettings set \
-              --resource-group RoomMeetingTrackerEfSamen \
-              --name RoomMeetingTracker-2025 \
-              --settings DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}"
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
