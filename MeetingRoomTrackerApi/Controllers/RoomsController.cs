@@ -33,21 +33,21 @@ namespace MeetingRoomTrackerApi.Controllers
             return Ok(rooms);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet]
-        public ActionResult GetStatusService([FromRoute] int id)
-        {
-            try
-            {
-                bool status = _roomService.GetStatus(id);
-                return Ok(status);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message.ToString());
-            }
-        }
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpGet]
+        //public ActionResult GetStatusService([FromRoute] int id)
+        //{
+        //    try
+        //    {
+        //        bool status = _roomService.GetStatus(id);
+        //        return Ok(status);
+        //    }
+        //    catch (KeyNotFoundException ex)
+        //    {
+        //        return NotFound(ex.Message.ToString());
+        //    }
+        //}
 
         // GET api/<RoomsController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
