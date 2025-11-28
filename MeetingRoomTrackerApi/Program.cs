@@ -1,4 +1,4 @@
-using MeetingRoomTrackerLib;
+﻿using MeetingRoomTrackerLib;
 using MeetingRoomTrackerLib.Models;
 using MeetingRoomTrackerLib.Repos;
 using MeetingRoomTrackerLib.Services;
@@ -48,6 +48,8 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Room Tracker API v1");
     options.RoutePrefix = "swagger";
 });
+// Redirect root Swagger UI
+app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.UseAuthorization();
 app.MapControllers();
