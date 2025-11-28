@@ -30,6 +30,10 @@ builder.Services.AddSwaggerGen(c =>
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // bruger local
 var connectionString = Environment.GetEnvironmentVariable("DefaultConnection"); // bruger online 
 //Console.WriteLine("Connection String: " + connectionString);
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new Exception("Connection string 'DefaultConnection' not found as environment variable!");
+}
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
 
