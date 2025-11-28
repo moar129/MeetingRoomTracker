@@ -28,6 +28,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine("Connection String: " + connectionString);
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
 
