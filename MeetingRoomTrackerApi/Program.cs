@@ -27,7 +27,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Database
-//var connectionString = "Server=mssql3.unoeuro.com;Database=devnoter_dk_db_dev_noter;User Id=devnoter_dk;Password=dhcED6fzFnR3A94GyHxb;Encrypt=True;TrustServerCertificate=True;";
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
