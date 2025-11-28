@@ -55,10 +55,9 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E0A216F67DA84F2693B7EFE937D88342 }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'RoomMeetingTracker-2025-win'   # <-- Din Windows App Service
+          app-name: 'RoomMeetingTracker-2025-win'     # Dit App Service navn
+          slot-name: 'Production'
           package: ./publish
-          app-settings: |
-            ConnectionStrings__DefaultConnection=${{ secrets.DB_CONNECTION_STRING }}
+          resource-group-name: 'RoomMeetingTrackerEksamen'  # Din Resource Group
