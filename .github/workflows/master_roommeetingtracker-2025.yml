@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core API to Azure Web App - RoomMeetingTracker-2025
+name: Build and deploy ASP.Net Core app to Azure Web App - RoomMeetingTracker-2025-Win
 
 on:
   push:
@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,14 +18,11 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Restore dependencies
-        run: dotnet restore MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj
-
       - name: Build API project
-        run: dotnet build MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release --no-restore
+        run: dotnet build MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release
 
       - name: Publish API project
-        run: dotnet publish MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release -o ./publish --no-build
+        run: dotnet publish MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release -o ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -39,10 +33,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -53,16 +43,12 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A275E899F3CF4745A059733D7C7D47D7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9D4D209CA4DA49DEA13947A1B799C3D9 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E0A216F67DA84F2693B7EFE937D88342 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'RoomMeetingTracker-2025'
-          slot-name: 'Production'
+          app-name: 'RoomMeetingTracker-2025-win'
           package: ./publish
-          app-settings: |
-            ConnectionStrings__DefaultConnection=${{ secrets.DB_CONNECTION_STRING }}
