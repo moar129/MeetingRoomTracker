@@ -43,17 +43,11 @@ var app = builder.Build();
 
 // Swagger middleware
 app.UseSwagger();
-// Enable Swagger UI at the app's root
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Room Tracker API v1");
-    options.RoutePrefix = string.Empty;
+    options.RoutePrefix = "swagger";
 });
-
-// Generate OpenAPI document
-app.MapOpenApi();
-// Optional: Redirect root to Swagger UI (nice touch)
-app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.UseAuthorization();
 app.MapControllers();
