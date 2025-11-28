@@ -27,7 +27,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Database
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // bruger local
+var connectionString = Environment.GetEnvironmentVariable("DefaultConnection"); // bruger online 
 //Console.WriteLine("Connection String: " + connectionString);
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
