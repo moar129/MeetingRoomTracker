@@ -23,4 +23,9 @@
     <ProjectReference Include="..\MeetingRoomTrackerLib\MeetingRoomTrackerLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Frontend\HTML\" />
+    <Folder Include="Frontend\CSS\" />
+  </ItemGroup>
+
 </Project>
