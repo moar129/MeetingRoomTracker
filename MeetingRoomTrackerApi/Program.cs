@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine("Connection String: " + connectionString);
+//Console.WriteLine("Connection String: " + connectionString);
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -40,6 +40,9 @@ builder.Services.AddScoped<IRepos<Room>, RoomRepo>();
 builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
 
 var app = builder.Build();
+
+// Use CORS policy
+app.UseCors("AllowAll");
 
 // Swagger middleware
 app.UseSwagger();
@@ -53,7 +56,6 @@ app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.UseAuthorization();
 app.MapControllers();
-// Use CORS policy
-app.UseCors("AllowAll");
+
 
 app.Run();
