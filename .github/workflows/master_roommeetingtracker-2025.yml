@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - RoomMeetingTracker-2025
+name: Build and deploy ASP.Net Core API to Azure Web App - RoomMeetingTracker-2025
 
 on:
   push:
@@ -21,11 +21,14 @@ jobs:
         with:
           dotnet-version: '9.x'
 
+      - name: Restore dependencies
+        run: dotnet restore MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj
+
       - name: Build API project
-        run: dotnet build MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release
+        run: dotnet build MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release --no-restore
 
       - name: Publish API project
-        run: dotnet publish MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release -o ./publish
+        run: dotnet publish MeetingRoomTrackerApi/MeetingRoomTrackerApi.csproj -c Release -o ./publish --no-build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -61,3 +64,5 @@ jobs:
           app-name: 'RoomMeetingTracker-2025'
           slot-name: 'Production'
           package: ./publish
+          app-settings: |
+            ConnectionStrings__DefaultConnection=${{ secrets.DB_CONNECTION_STRING }}
