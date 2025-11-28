@@ -27,11 +27,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Database
-var connectionString = builder.Configuration["DB_CONNECTION_STRING"]
-                       ?? builder.Configuration.GetConnectionString("DefaultConnection"); // Fallback to DefaultConnection if DB_CONNECTION_STRING is not set
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<RMTDbContext>(options =>
-    options.UseSqlServer(connectionString)); // Use SQL Server
+    options.UseSqlServer(connectionString));
 
 
 // Dependency Injection
