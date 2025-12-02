@@ -9,6 +9,7 @@ namespace MeetingRoomTrackerLib
     {
         private string _name;
         private int _floor;
+        private int _roomNumber;
         public int Id { get; set; }
         public bool Status { get; set; }
         public RoomTypeEnum RoomType { get; set; }
@@ -43,6 +44,18 @@ namespace MeetingRoomTrackerLib
                 _floor = value;
             } 
         }
+        public int RoomNumber 
+        { 
+            get { return _roomNumber; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("RoomNumber must be a non-negative integer.");
+                }
+                _roomNumber = value;
+            } 
+        }
         /// <summary>
         /// creates a room with parameters
         /// </summary>
@@ -52,7 +65,8 @@ namespace MeetingRoomTrackerLib
         /// <param name="name"></param>
         /// <param name="bygning"></param>
         /// <param name="floor"></param>
-        public Room(int id, bool status, RoomTypeEnum rumType, string name, BuildingEnum bygning, int floor)
+        /// <param name="roomNumber"></param>
+        public Room(int id, bool status, RoomTypeEnum rumType, string name, BuildingEnum bygning, int floor, int roomNumber)
         {
             Id = id;
             Status = status;
@@ -60,6 +74,7 @@ namespace MeetingRoomTrackerLib
             Name = name;
             Building = bygning;
             Floor = floor;
+            RoomNumber = roomNumber;
         }
         /// <summary>
         /// Creates a room without parameters mostly used by Entity Framework
