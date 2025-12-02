@@ -29,8 +29,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Database
-//var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
 
