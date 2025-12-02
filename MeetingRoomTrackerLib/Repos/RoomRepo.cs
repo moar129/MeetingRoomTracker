@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MeetingRoomTrackerLib.Models;
 using MeetingRoomTrackerLib;
 using Microsoft.EntityFrameworkCore;
+using MeetingRoomTrackerLib.Services;
 
 namespace MeetingRoomTrackerLib.Repos
 {
@@ -15,7 +16,54 @@ namespace MeetingRoomTrackerLib.Repos
         public RoomRepo(RMTDbContext Context)
         {
             _context = Context;
+
+            _context.Add(new Room { Status = false, RoomType = 0,Name = "London", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 4});
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Dublin", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 5 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Berlin", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 6 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Amsterdam", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 7 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Brussels", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 8 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Luxembourg", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 9 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Paris", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 11 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Madrid", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 12 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Lisbon", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 13 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Bern", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 14 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Vienna", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 15 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Rome", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 16 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Stockholm", Building = (EnumClasses.BuildingEnum)3, Floor = 2, RoomNumber = 17 });
+
+
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Barcelona", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 4 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Valencia", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 5 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Seville", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 6 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Naples", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 7 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Milan", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 8 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Turin", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 9 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Porto", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 11 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Thessaloniki", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 12 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Patras", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 13 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Split", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 14 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Dubrovnik", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 15 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Palermo", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 16 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Catania", Building = (EnumClasses.BuildingEnum)3, Floor = 3, RoomNumber = 17 });
+
+
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Copenhagen", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 1 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Oslo", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 2 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Helsinki", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 3 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Warsaw", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 4 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Prague", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 6 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Budapest", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 7 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Athens", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 8 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Zagreb", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 10 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Ljubljana", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 12 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Sofia", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 13 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Bucharest", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 14 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Belgrade", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 15 });
+            _context.Add(new Room { Status = false, RoomType = 0, Name = "Sarajevo", Building = (EnumClasses.BuildingEnum)1, Floor = 2, RoomNumber = 16 });
+            
+
         }
+
         public Room Add(Room roomToBeCreated)
         {
             _context.Rooms.Add(roomToBeCreated);

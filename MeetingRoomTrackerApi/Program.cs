@@ -28,6 +28,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { Title = "Meeting Room Tracker API", Version = "v1" });
 });
 
+
+// localDb
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // Database
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 builder.Services.AddDbContext<RMTDbContext>(options =>
