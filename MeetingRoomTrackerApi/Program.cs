@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Real Time updates through SignalR
+builder.Services.AddSignalR();
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
@@ -27,7 +29,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Database
-var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+//var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
 
