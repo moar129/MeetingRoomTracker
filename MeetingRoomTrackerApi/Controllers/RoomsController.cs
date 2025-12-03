@@ -66,7 +66,7 @@ namespace MeetingRoomTrackerApi.Controllers
                     Building = newRoom.Building!.Value,
                     Floor = newRoom.Floor!.Value,
                     Status = false, // Default status to false (available)
-                    RoomNumber = newRoom
+                    RoomNumber = newRoom.RoomNumber!.Value
                 };
                 Room createdRoom = _roomService.CreateRoom(roomToAdd);
                 return CreatedAtAction(nameof(Get), new { id = createdRoom.Id }, createdRoom    );
