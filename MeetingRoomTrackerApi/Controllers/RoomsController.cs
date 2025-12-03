@@ -36,6 +36,7 @@ namespace MeetingRoomTrackerApi.Controllers
         // GET api/<RoomsController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
         public ActionResult<Room> Get([FromRoute] int id)
             {
@@ -48,12 +49,17 @@ namespace MeetingRoomTrackerApi.Controllers
                 {
                     return NotFound(ex.Message.ToString());
                 }
-            }
+                catch (Exception ex)
+                {
+                    return StatusCode(500,ex.Message.ToString());
+                }
+        }
 
 
         // POST api/<RoomsController>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public ActionResult<Room> Post([FromBody] RoomDTO newRoom)
         {
@@ -79,10 +85,18 @@ namespace MeetingRoomTrackerApi.Controllers
             {
                 return BadRequest(ex.Message.ToString());
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message.ToString());
+            }
+
 
         }
 
         // PUT api/<RoomsController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         public ActionResult<Room> Put(int id, [FromBody] RoomDTO room)
         {
@@ -95,7 +109,8 @@ namespace MeetingRoomTrackerApi.Controllers
                     RoomType = room.RoomType!.Value,
                     Building = room.Building!.Value,
                     Floor = room.Floor!.Value,
-                    Status = room.Status!.Value
+                    Status = room.Status!.Value,
+                    RoomNumber = room.RoomNumber!.Value
                 };
                 Room updatedRoom = _roomService.UpdateRoom(roomToUpdate);
                 return Ok(roomToUpdate);
@@ -109,10 +124,15 @@ namespace MeetingRoomTrackerApi.Controllers
             {
                 return BadRequest(ex.Message.ToString());
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message.ToString());
+            }
         }
 
         // DELETE api/<RoomsController>/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult Delete(int id)
         {
             return Ok(_roomService.DeleteRoom(id));
