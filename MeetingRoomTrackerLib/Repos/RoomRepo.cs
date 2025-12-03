@@ -49,6 +49,7 @@ namespace MeetingRoomTrackerLib.Repos
                 existingRoom.RoomType = roomToBeUpdated.RoomType;
                 existingRoom.Building = roomToBeUpdated.Building;
                 existingRoom.Floor = roomToBeUpdated.Floor;
+                existingRoom.RoomNumber = roomToBeUpdated.RoomNumber;
                 _context.SaveChanges();
 
             }
