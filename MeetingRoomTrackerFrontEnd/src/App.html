@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="left">
+    <header class="mb-4">
+      <h1 class="text-center-strong">Meeting Room Tracker</h1>
+      <p class="text-center text-muted">Status af ledige lokaler</p>
+      <p class="text-center">Opdateres i real-time</p>
+      <p class="text-center">Mock data indtil videre</p>
+    </header>
+
+    <!-- Overview Card -->  
+    <div class="overview-card mb-4">
+      <div class="overview-row">
+        <div class="overview-stat">
+          <span class="overview-label">Ledige</span>
+          <span class="overview-value available-count">1</span>
+        </div>
+        <div class="overview-stat">
+          <span class="overview-label">Optaget</span>
+          <span class="overview-value occupied-count">1</span>
+        </div>
+        <div class="overview-stat">
+          <span class="overview-label">Mangler data</span>
+          <span class="overview-value unknown-count">1</span>
+        </div>
+        <div class="overview-stat">
+          <span class="overview-label">I alt</span>
+          <span class="overview-value total-count">3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rooms-grid">
+      <!-- Mock Room 1 -->
+      <div class="room-card">
+        <div class="status-icon available"></div>
+        <h3>Mødelokale A</h3>
+        <p class="status status-available">
+          🟢 Ledig
+        </p>
+      </div>
+
+      <!-- Mock Room 2 -->
+      <div class="room-card">
+        <div class="status-icon occupied"></div>
+        <h3>Mødelokale B</h3>
+        <p class="status status-occupied">
+          🔴 Optaget
+        </p>
+      </div>
+
+      <!-- Mock Room 3 -->
+      <div class="room-card">
+        <div class="status-icon unknown"></div>
+        <h3>Mødelokale C</h3>
+        <p class="status status-unknown">
+          ⚪ Mangler data
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
