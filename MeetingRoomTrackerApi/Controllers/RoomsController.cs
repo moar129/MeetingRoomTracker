@@ -128,7 +128,7 @@ namespace MeetingRoomTrackerApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message.ToString());
+                return StatusCode(501, ex.Message.ToString());
             }
         }
 
