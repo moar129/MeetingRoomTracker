@@ -35,14 +35,15 @@ namespace MeetingRoomTrackerLib.Repos.Tests
             string name = "test",
             RoomTypeEnum roomType = RoomTypeEnum.Mødelokale,
             BuildingEnum building = BuildingEnum.A,
-            int floor = 2)
+            int floor = 2, int roomNumber = 2)
         {
             return new Room
             {
                 Name = name,
                 RoomType = roomType,
                 Building = building,
-                Floor = floor
+                Floor = floor,
+                RoomNumber = roomNumber
             };
         }
 
@@ -56,8 +57,8 @@ namespace MeetingRoomTrackerLib.Repos.Tests
              _repo.Add(roomToBeAdded);
             
             
-            Assert.AreEqual(1, _repo.GetAll().Count());
-            Assert.AreEqual(roomToBeAdded.Name, _repo.GetById(1).Name);
+            Assert.AreEqual(roomToBeAdded.Id, _repo.GetAll().Count());
+            Assert.AreEqual(roomToBeAdded.Name, _repo.GetById(roomToBeAdded.Id).Name);
 
         }
 
@@ -72,7 +73,7 @@ namespace MeetingRoomTrackerLib.Repos.Tests
 
             var rooms = _repo.GetAll();
             Assert.IsNotNull(rooms);
-            Assert.AreEqual(2, rooms.Count());
+            Assert.AreEqual(roomToBeAdded2.Id, rooms.Count());
            
         }
 
@@ -81,7 +82,7 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         {
             var roomToBeAdded = CreateRoom("test");
             _repo.Add(roomToBeAdded);
-            var room = _repo.GetById(1);
+            var room = _repo.GetById(roomToBeAdded.Id);
             Assert.AreEqual(roomToBeAdded.Name, room.Name);
             
         }
@@ -103,8 +104,8 @@ namespace MeetingRoomTrackerLib.Repos.Tests
         {
             var roomToBeDelete = CreateRoom("test");
             _repo.Add(roomToBeDelete);
-            _repo.Delete(1);
-            Assert.AreEqual(0, _repo.GetAll().Count());
+            _repo.Delete(roomToBeDelete.Id);
+            Assert.AreEqual(--roomToBeDelete.Id, _repo.GetAll().Count());
             
         }
     }
