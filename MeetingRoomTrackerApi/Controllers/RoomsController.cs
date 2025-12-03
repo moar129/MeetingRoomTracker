@@ -33,22 +33,6 @@ namespace MeetingRoomTrackerApi.Controllers
             return Ok(rooms);
         }
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[HttpGet]
-        //public ActionResult GetStatusService([FromRoute] int id)
-        //{
-        //    try
-        //    {
-        //        bool status = _roomService.GetStatus(id);
-        //        return Ok(status);
-        //    }
-        //    catch (KeyNotFoundException ex)
-        //    {
-        //        return NotFound(ex.Message.ToString());
-        //    }
-        //}
-
         // GET api/<RoomsController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -81,7 +65,8 @@ namespace MeetingRoomTrackerApi.Controllers
                     RoomType = newRoom.RoomType!.Value,
                     Building = newRoom.Building!.Value,
                     Floor = newRoom.Floor!.Value,
-                    Status = false // Default status to false (available)
+                    Status = false, // Default status to false (available)
+                    RoomNumber = newRoom
                 };
                 Room createdRoom = _roomService.CreateRoom(roomToAdd);
                 return CreatedAtAction(nameof(Get), new { id = createdRoom.Id }, createdRoom    );

@@ -10,6 +10,7 @@ namespace MeetingRoomTrackerApi.DTOs
         public RoomTypeEnum? RoomType { get; set; }
         public BuildingEnum? Building { get; set; }
         public int? Floor { get; set; }
+        public int? RoomNumber { get; set; }
         public RoomDTO() {}
     }
 }
