@@ -98,8 +98,10 @@ namespace MeetingRoomTrackerApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
+        
         public ActionResult<Room> Put(int id, [FromBody] RoomDTO room)
         {
+            // dette er en kommentar
             try
             {
                 Room roomToUpdate = new Room
