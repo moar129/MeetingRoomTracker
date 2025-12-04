@@ -55,7 +55,7 @@ namespace MeetingRoomTrackerApi.Controllers
 
         // POST api/<ValuesController>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public ActionResult<TimeLog> Post([FromBody] TimeLogDTO newTimeLog)
         {
@@ -77,6 +77,8 @@ namespace MeetingRoomTrackerApi.Controllers
         }
 
         // PUT api/<ValuesController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id}")]
         public ActionResult<TimeLog> Put(int id, [FromBody]TimeLogDTO timeLog)
         {
@@ -107,7 +109,14 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            return Ok(_timeLogService.DeleteTimeLog(id));
+            try
+            {
+                return Ok(_timeLogService.DeleteTimeLog(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
         }
     }
 }
