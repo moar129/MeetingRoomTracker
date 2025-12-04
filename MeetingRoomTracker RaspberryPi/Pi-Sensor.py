@@ -69,6 +69,7 @@ try:
                 print("EventStart")
                 log_event("EventStart")
                 event_active = True
+                # sender UDP broadcast
                 send_udp_broadcast("EventStart")
 
             # Nulstil timeren (forlænger eventet)
@@ -82,6 +83,7 @@ try:
                 print("EventStop")
                 log_event("EventStop")
                 event_active = False
+                # sender UDP broadcast
                 send_udp_broadcast("EventStop")
 
         time.sleep(1)
