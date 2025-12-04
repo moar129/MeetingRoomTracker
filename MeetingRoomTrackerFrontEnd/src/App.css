@@ -43,6 +43,7 @@ h1 {
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 20px;
   text-align: center;
+  color:#ffffff;
 }
 
 .overview-stat {
