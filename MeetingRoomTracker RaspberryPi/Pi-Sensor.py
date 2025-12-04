@@ -2,7 +2,27 @@ import RPi.GPIO as GPIO
 import time
 import json
 import os
+import socket
+
 from datetime import datetime, timedelta
+
+#UDP Broadcast indstillinger:
+Broadcast_IP = "255.255.255.255"
+Broadcast_Port = 12000
+
+udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+udp_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+#Broadcast Helper funktion
+def send_udp_broadcast(event_type):
+    payload = json.dumps({
+        "event": event_type,
+        "roomId": RoomId,
+        "timestamp": datetime.now().isoformat()
+    })
+    udp_socket.sendto(payload.encode(), (Broadcast_IP, Broadcast_Port))
+    print("Sent UDP broadcast:", payload)
+
 
 # Manuel ændring af Room
 RoomId = 12     # <- Ændr dette til det rum sensoren sidder i
@@ -49,6 +69,7 @@ try:
                 print("EventStart")
                 log_event("EventStart")
                 event_active = True
+                send_udp_broadcast("EventStart")
 
             # Nulstil timeren (forlænger eventet)
             event_end_time = datetime.now() + timedelta(minutes=EVENT_TIMEOUT_MINUTES)
@@ -61,6 +82,7 @@ try:
                 print("EventStop")
                 log_event("EventStop")
                 event_active = False
+                send_udp_broadcast("EventStop")
 
         time.sleep(1)
 
