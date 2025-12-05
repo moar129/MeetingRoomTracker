@@ -5,14 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using MeetingRoomTrackerLib.Models;
 using MeetingRoomTrackerLib.Repos;
+using MeetingRoomTrackerLib.Services.Discord_WebHook;
 
 namespace MeetingRoomTrackerLib.Services
 {
     public class RoomService : IRoomService
     {
         private readonly IRepos<Room> _roomRepo;
+        private readonly IDiscordWebHookService _discordWebHookService;
 
-        public RoomService(IRepos<Room> rooms) { _roomRepo = rooms; }
+        public RoomService(IRepos<Room> rooms, IDiscordWebHookService discordService)
+        {
+            _roomRepo = rooms;
+            _discordWebHookService = discordService; 
+        }
 
         public IEnumerable<Room> GetAllRooms()
         {
@@ -46,7 +52,32 @@ namespace MeetingRoomTrackerLib.Services
             {
                 throw new KeyNotFoundException($"Room with ID {room.Id} not found.");
             }
-            return _roomRepo.Update(room, room.Id);
+
+            bool oldStatus = existingRoom.Status;
+
+            Room updatedRoom = _roomRepo.Update(room, room.Id);
+
+            if (oldStatus == true && updatedRoom.Status == false)
+            {
+
+            }
+            return updatedRoom;
+        }
+        /// <summary>
+        /// Sends a notification to Discord when a room becomes free.
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
+        private async Task SendRoomFreeNotification(Room room)
+        {
+            string roomName = room.Name ?? "Ukendt Lokale";
+            
+            await _discordWebHookService.SendEmbedMessageAsync(
+                title: $"Lokale Ledigt: {roomName}",
+                description: $"Lokalet **{roomName}** er nu ledigt.",
+                color: 65280 // Grøn farve
+            );
+
         }
 
         public Room DeleteRoom(int id)
