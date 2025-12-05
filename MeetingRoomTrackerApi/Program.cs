@@ -2,6 +2,7 @@
 using MeetingRoomTrackerLib.Models;
 using MeetingRoomTrackerLib.Repos;
 using MeetingRoomTrackerLib.Services;
+using MeetingRoomTrackerLib.Services.Discord_WebHook;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,11 +37,14 @@ var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 builder.Services.AddDbContext<RMTDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+
+
 // Dependency Injection
 builder.Services.AddScoped<ITimeLogService, TimeLogServce>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IRepos<Room>, RoomRepo>();
 builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
+builder.Services.AddHttpClient<IDiscordWebHookService, DiscordWebHookService>();
 
 var app = builder.Build();
 

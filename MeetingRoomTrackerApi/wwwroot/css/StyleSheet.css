@@ -1,0 +1,23 @@
+﻿body {
+    background: #eef2f7;
+    font-family: Arial, sans-serif;
+}
+
+.test-panel {
+    background: white;
+    padding: 25px;
+    margin: 50px auto;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.test-btn {
+    padding: 10px 18px;
+    background: #007bff;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
