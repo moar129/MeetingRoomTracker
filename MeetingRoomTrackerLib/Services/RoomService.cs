@@ -47,7 +47,7 @@ namespace MeetingRoomTrackerLib.Services
             {
                 throw new ArgumentNullException(nameof(room), "Room cannot be null.");
             }
-            Room? existingRoom = _roomRepo.GetById(room.Id);
+            Room? existingRoom = GetRoomById(room.Id);
             if (existingRoom == null)
             {
                 throw new KeyNotFoundException($"Room with ID {room.Id} not found.");
