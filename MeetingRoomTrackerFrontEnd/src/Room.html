@@ -1,0 +1,35 @@
+<div class="room-detail-container">
+  <div class="overview-card" style="max-width: 600px;">
+    <div class="room-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <h1 style="margin: 0; color: white;">{{ room.name }}</h1>
+        <button class="webhook-button" @click="">
+          <i class="bi bi-envelope"></i>
+        </button>
+      </div>
+      <span :class="'status status-' + (room.status ? 'occupied' : 'available')">{{ getStatusLabel(room.status ? 'occupied' : 'available') }}</span>
+    </div>
+    
+    <div class="room-info">
+      <div class="info-section">
+        <h2>Lokale Information</h2>
+        <p><strong>Bygning:</strong> {{ room.building }}</p>
+        <p><strong>Etage:</strong> {{ room.floor }}</p>
+        <p><strong>Lokalenummer:</strong> #{{ room.roomNumber }}</p>
+        <p><strong>Rumkapacitet:</strong> {{ room.capacity }} personer</p>
+      </div>
+      
+      <div class="info-section" v-if="room.timeline && room.timeline.length > 0">
+        <h2>Historik</h2>
+        <div class="timeline">
+          <div v-for="entry in room.timeline" :key="entry.timestamp" class="timeline-entry">
+            <div class="timeline-time">{{ formatTime(entry.timestamp) }}</div>
+            <div class="timeline-event">
+              <span class="timeline-label">{{ entry.event }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

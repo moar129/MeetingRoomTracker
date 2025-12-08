@@ -171,3 +171,124 @@ h1 {
   padding: 40px;
   color: #999;
 }
+
+/* Accordion */
+.accordion-toggle {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.accordion-toggle .chevron {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 20px;
+  transition: transform 0.18s ease;
+}
+.accordion-toggle.open .chevron { transform: rotate(90deg); }
+
+details .chevron {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 20px;
+  transition: transform 0.18s ease;
+}
+details[open] .chevron { transform: rotate(90deg); }
+
+/* room list */
+.room-list-item { display:flex; align-items:center; justify-content:space-between; gap:12px; color: white }
+.status { font-size: 0.95rem; padding: 6px 10px; border-radius: 8px; display:inline-flex; align-items:center; justify-content:center; min-width:80px; text-align:center }
+.status-available { background: rgba(74,222,128,0.12); color: #9beab0 }
+.status-occupied  { background: rgba(248,113,113,0.12); color: #f9a8a8 }
+.status-unknown   { background: rgba(203,213,225,0.06); color: #cbd5e1 }
+
+
+.room-link { color: white !important; text-decoration: none }
+.room-link small { color: rgba(255,255,255,0.75); font-weight: 500 }
+.room-link:hover { text-decoration: underline }
+
+.room-entry { display:flex; flex-direction:column; align-items:flex-start }
+.room-floor { font-size: 0.85rem; color: rgba(255,255,255,0.75); margin-top:4px }
+
+/* Timeline styles */
+.timeline {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeline-entry {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  border-left: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.timeline-time {
+  font-weight: 600;
+  color: white;
+  min-width: 60px;
+  font-size: 0.95rem;
+}
+
+.timeline-event {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex: 1;
+}
+
+.timeline-label {
+  color: white;
+  font-size: 0.95rem;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-section p {
+  color: white;
+}
+
+.info-section h2 {
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 5px;
+}
+
+/* Webhook button */
+.webhook-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 1rem;
+}
+
+.webhook-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.webhook-button:active {
+  transform: scale(0.95);
+}
