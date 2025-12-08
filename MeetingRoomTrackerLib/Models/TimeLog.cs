@@ -7,7 +7,7 @@ namespace MeetingRoomTrackerLib.Models
     public class TimeLog
     {
         private DateTime _startEvent;
-        private DateTime _endEvent;
+        private DateTime? _endEvent;
         public int Id { get; set; }
         public int RoomId { get; set; }
         /// <summary>
@@ -37,24 +37,34 @@ namespace MeetingRoomTrackerLib.Models
         /// <summary>
         /// End time of the event with validation to ensure it is after StartEvent and year is 2024 or later.
         /// </summary>
-        public DateTime EndEvent 
+        public DateTime? EndEvent
         {
-            get => _endEvent; 
+            get => _endEvent;
             set
             {
-                // vi smider en fejl hvis endEvent er mindre end startEvent
-                if ( value <= _startEvent && _startEvent != default(DateTime))
+                // allow null (EventStart case)
+                if (value is null)
+                {
+                    _endEvent = null;
+                    return;
+                }
+
+                // endEvent must be after startEvent
+                if (value <= _startEvent && _startEvent != default(DateTime))
                 {
                     throw new ArgumentOutOfRangeException(nameof(EndEvent));
                 }
-                // vi smider en fejl hvis årstallet er mindre end 2024
-                if (value.Year < 2024)
+
+                // validate year
+                if (value.Value.Year < 2024)
                 {
                     throw new ArgumentOutOfRangeException(nameof(EndEvent));
                 }
+
                 _endEvent = value;
-            } 
+            }
         }
+
         /// <summary>
         /// Reference to the associated Room object. For EF relationships.
         /// </summary>

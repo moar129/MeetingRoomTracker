@@ -64,7 +64,7 @@ namespace MeetingRoomTrackerApi.Controllers
                 TimeLog timeLogToAdd = new TimeLog
                 {
                     StartEvent = newTimeLog.StartEvent!.Value,
-                    EndEvent = newTimeLog.EndEvent!.Value,
+                    EndEvent = newTimeLog.EndEvent,
                     RoomId = newTimeLog.RoomId!.Value
                 };
                 _timeLogService.CreateTimeLog(timeLogToAdd);
@@ -88,7 +88,7 @@ namespace MeetingRoomTrackerApi.Controllers
                 {
                     Id = id,
                     StartEvent = timeLog.StartEvent!.Value,
-                    EndEvent = timeLog.EndEvent!.Value,
+                    EndEvent = timeLog.EndEvent,
                     RoomId = timeLog.RoomId!.Value
                 };
                 _timeLogService.UpdateTimeLog(timelogTOUpdate);

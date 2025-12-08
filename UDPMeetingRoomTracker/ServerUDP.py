@@ -25,7 +25,7 @@ def send_http_request(Event):
                 "roomId": roomId,
                 "startEvent": Event["timestamp"],
                 "endEvent": None
-            },
+            }
             
             # Opdater rummet til optaget
             room["status"] = True
@@ -59,7 +59,7 @@ def send_http_request(Event):
             responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
             
             # Fjern den gemte timelog ID
-            del active_timelogs[roomId]
+            del activeTimeLogs[roomId]
 
             # print responses for debugging
             print("HTTP ResponseTimeLog:", responseTimeLog.status_code, responseTimeLog.text)
