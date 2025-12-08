@@ -7,7 +7,7 @@ import requests
 serverPort = 12000
 serverSocket = socket(AF_INET, SOCK_DGRAM)
 
-serverSocket.bind("",serverPort)
+serverSocket.bind(("",serverPort))
 print("The server is ready to receive")
 
 # Store active timelog IDs
@@ -24,15 +24,15 @@ def send_http_request(Event):
             timeLog = {
                 "roomId": roomId,
                 "startEvent": Event["timestamp"],
-                "endEvent": null
+                "endEvent": None
             },
             
             # Opdater rummet til optaget
             room["status"] = True
             
             # Send POST request for timelog og PUT request for room
-            responseTimeLog = requests.post("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog", json=timeLog)
-            responseRoom = requests.put("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
+            responseTimeLog = requests.post(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog", json=timeLog)
+            responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
             
             # print responses for debugging
             print("HTTP ResponseTimeLog:", responseTimeLog.status_code, responseTimeLog.text)
@@ -50,13 +50,13 @@ def send_http_request(Event):
             timeLogId = activeTimeLogs[roomId]
 
             # Opdater timelog med sluttidspunkt og opdater rummet til ledig
-            timeLog = requests.get("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog/{timeLogId}").json()
+            timeLog = requests.get(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog/{timeLogId}").json()
             timeLog["endEvent"] = Event["timestamp"]
             room["status"] = False
 
             # Send PUT requests for timelog og room
-            responseTimeLog = requests.put("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog/{timeLogId}", json=timeLog)
-            responseRoom = requests.put("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
+            responseTimeLog = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog/{timeLogId}", json=timeLog)
+            responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
             
             # Fjern den gemte timelog ID
             del active_timelogs[roomId]
