@@ -41,7 +41,7 @@ namespace MeetingRoomTrackerLib.Services
             }
             return _roomRepo.Add(room);
         }
-        public Room UpdateRoom(Room room)
+        public async Task <Room> UpdateRoom(Room room)
         {
             if (room == null)
             {
@@ -59,6 +59,7 @@ namespace MeetingRoomTrackerLib.Services
 
             if (oldStatus == true && updatedRoom.Status == false)
             {
+               await SendRoomFreeNotification(updatedRoom);
 
             }
             return updatedRoom;
