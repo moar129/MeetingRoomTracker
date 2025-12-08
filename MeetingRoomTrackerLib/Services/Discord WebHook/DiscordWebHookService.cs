@@ -10,23 +10,28 @@ using System.Linq.Expressions;
 
 namespace MeetingRoomTrackerLib.Services.Discord_WebHook
 {
+    // Service til at sende beskeder til en Discord Webhook
     public class DiscordWebHookService : IDiscordWebHookService
     {
+        // HttpClient bruges til at sende HTTP-anmodninger
         private readonly HttpClient _httpClient;
         private readonly string _webHookUrl;
 
+        // Konstruktor, der initialiserer HttpClient og henter Webhook URL fra konfigurationen
         public DiscordWebHookService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _webHookUrl = configuration["Discord:WebhookUrl"] ?? throw new ArgumentException("Discord WebHook URL is not configured.");
         }
-        
+
+        // Sender en simpel tekstbesked til Discord Webhook async så det ikke blokerer hovedtråden
         public async Task SendMessageAsync(string message)
         {
             var payload = new { content = message };
             await SendPayloadAsync(payload);
         }
 
+        // Sender en embed-besked til Discord Webhook async så det ikke blokerer hovedtråden
         public async Task SendEmbedMessageAsync(string title, string description, int color = 65280)
         {
             var embed = new
@@ -40,10 +45,13 @@ namespace MeetingRoomTrackerLib.Services.Discord_WebHook
             var payload = new { embeds = new[] { embed } };
             await SendPayloadAsync(payload);
         }
+
+        // Hjælpefunktion til at sende payload til Discord Webhook
         public async Task SendPayloadAsync(object payload)
         {
             try
             {
+                // Serialiserer payload til JSON
                 var json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 

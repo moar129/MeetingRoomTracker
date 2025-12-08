@@ -98,7 +98,8 @@ namespace MeetingRoomTrackerApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
-        
+
+        // Opdaterer et lokale med angivet id async så det ikke blokerer hovedtråden
         public async Task<ActionResult<Room>> Put(int id, [FromBody] RoomDTO room)
         {
             // dette er en kommentar
@@ -114,6 +115,7 @@ namespace MeetingRoomTrackerApi.Controllers
                     Status = room.Status!.Value,
                     RoomNumber = room.RoomNumber!.Value
                 };
+                // Opdaterer lokalet og venter på resultatet
                 Room updatedRoom = await _roomService.UpdateRoom(roomToUpdate);
                 return Ok(roomToUpdate);
                 
