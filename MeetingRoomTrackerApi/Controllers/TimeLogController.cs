@@ -59,20 +59,28 @@ namespace MeetingRoomTrackerApi.Controllers
         [HttpPost]
         public ActionResult<TimeLog> Post([FromBody] TimeLogDTO newTimeLog)
         {
+            // VALIDATION FIRST — outside the try
+            if (newTimeLog.StartEvent is null)
+                return BadRequest("StartEvent is required.");
+
+            if (newTimeLog.RoomId is null)
+                return BadRequest("RoomId is required.");
+
             try
             {
                 TimeLog timeLogToAdd = new TimeLog
                 {
-                    StartEvent = newTimeLog.StartEvent!.Value,
+                    StartEvent = newTimeLog.StartEvent.Value,
                     EndEvent = newTimeLog.EndEvent,
-                    RoomId = newTimeLog.RoomId!.Value
+                    RoomId = newTimeLog.RoomId.Value
                 };
+
                 _timeLogService.CreateTimeLog(timeLogToAdd);
                 return CreatedAtAction(nameof(Get), new { id = timeLogToAdd.Id }, timeLogToAdd);
             }
             catch (ArgumentNullException ex)
             {
-                return BadRequest(ex.Message.ToString());
+                return BadRequest(ex.Message);
             }
         }
 
@@ -80,29 +88,36 @@ namespace MeetingRoomTrackerApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id}")]
-        public ActionResult<TimeLog> Put(int id, [FromBody]TimeLogDTO timeLog)
+        public ActionResult<TimeLog> Put(int id, [FromBody] TimeLogDTO timeLog)
         {
+            // VALIDATION FIRST — outside try
+            if (timeLog.StartEvent is null)
+                return BadRequest("StartEvent is required.");
+
+            if (timeLog.RoomId is null)
+                return BadRequest("RoomId is required.");
+
             try
             {
-                TimeLog timelogTOUpdate = new TimeLog
+                TimeLog timelogToUpdate = new TimeLog
                 {
                     Id = id,
-                    StartEvent = timeLog.StartEvent!.Value,
+                    StartEvent = timeLog.StartEvent.Value,
                     EndEvent = timeLog.EndEvent,
-                    RoomId = timeLog.RoomId!.Value
+                    RoomId = timeLog.RoomId.Value
                 };
-                _timeLogService.UpdateTimeLog(timelogTOUpdate);
-                return Ok(timelogTOUpdate);
+
+                _timeLogService.UpdateTimeLog(timelogToUpdate);
+                return Ok(timelogToUpdate);
             }
             catch (KeyNotFoundException ex)
             {
-                return BadRequest(ex.Message.ToString());
+                return BadRequest(ex.Message);
             }
             catch (ArgumentNullException ex)
             {
-                return BadRequest(ex.Message.ToString());
+                return BadRequest(ex.Message);
             }
-            
         }
 
         // DELETE api/<ValuesController>/5

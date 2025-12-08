@@ -19,7 +19,7 @@ namespace MeetingRoomTrackerLib.Models
             set
             {
                 // vi smider en fjel hvis startEvent er større end endEvent
-                if ( value > _endEvent && _endEvent != default(DateTime))
+                if (_endEvent.HasValue && value > _endEvent.Value)
                 {
                     throw new ArgumentOutOfRangeException(nameof(StartEvent));
                 }
@@ -49,8 +49,8 @@ namespace MeetingRoomTrackerLib.Models
                     return;
                 }
 
-                // endEvent must be after startEvent
-                if (value <= _startEvent && _startEvent != default(DateTime))
+                // endEvent must not be before startEvent (allow equality)
+                if (_startEvent != default(DateTime) && value < _startEvent)
                 {
                     throw new ArgumentOutOfRangeException(nameof(EndEvent));
                 }
@@ -65,10 +65,11 @@ namespace MeetingRoomTrackerLib.Models
             }
         }
 
+
         /// <summary>
         /// Reference to the associated Room object. For EF relationships.
         /// </summary>
-        public virtual Room Room { get; set; } = null;
+        public virtual Room? Room { get; set; }
 
         /// <summary>
         /// TimeLog constructor with parameters

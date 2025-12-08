@@ -17,7 +17,7 @@ def send_http_request(Event):
     # Her kan du tilføje kode til at sende HTTP requests til Webserveren baseret på Event data
     try:
         roomId = Event["roomId"]
-        Room = requests.get(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}")
+        Room = requests.get(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/api/rooms/{roomId}")
         room = Room.json()
         if Event["event"] == "EventStart":
             # Opret ny timelog
@@ -31,8 +31,8 @@ def send_http_request(Event):
             room["status"] = True
             
             # Send POST request for timelog og PUT request for room
-            responseTimeLog = requests.post(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog", json=timeLog)
-            responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
+            responseTimeLog = requests.post(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/api/Timelog", json=timeLog)
+            responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/api/rooms/{roomId}", json=room)
             
             # print responses for debugging
             print("HTTP ResponseTimeLog:", responseTimeLog.status_code, responseTimeLog.text)
@@ -50,13 +50,13 @@ def send_http_request(Event):
             timeLogId = activeTimeLogs[roomId]
 
             # Opdater timelog med sluttidspunkt og opdater rummet til ledig
-            timeLog = requests.get(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog/{timeLogId}").json()
+            timeLog = requests.get(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/api/Timelog/{timeLogId}").json()
             timeLog["endEvent"] = Event["timestamp"]
             room["status"] = False
 
             # Send PUT requests for timelog og room
-            responseTimeLog = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/Timelog/{timeLogId}", json=timeLog)
-            responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net//api/rooms/{roomId}", json=room)
+            responseTimeLog = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/api/Timelog/{timeLogId}", json=timeLog)
+            responseRoom = requests.put(f"https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/api/rooms/{roomId}", json=room)
             
             # Fjern den gemte timelog ID
             del activeTimeLogs[roomId]
