@@ -99,7 +99,7 @@ namespace MeetingRoomTrackerApi.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         
-        public ActionResult<Room> Put(int id, [FromBody] RoomDTO room)
+        public async Task<ActionResult<Room>> Put(int id, [FromBody] RoomDTO room)
         {
             // dette er en kommentar
             try
@@ -114,7 +114,7 @@ namespace MeetingRoomTrackerApi.Controllers
                     Status = room.Status!.Value,
                     RoomNumber = room.RoomNumber!.Value
                 };
-                Room updatedRoom = _roomService.UpdateRoom(roomToUpdate);
+                Room updatedRoom = await _roomService.UpdateRoom(roomToUpdate);
                 return Ok(roomToUpdate);
                 
             }
