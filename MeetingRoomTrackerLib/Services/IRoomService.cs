@@ -11,7 +11,7 @@ namespace MeetingRoomTrackerLib.Services
         IEnumerable<Room> GetAllRooms();
         Room GetRoomById(int id);
         Room CreateRoom(Room room);
-        Room UpdateRoom(Room room);
+        Task<Room> UpdateRoom(Room room);
         Room DeleteRoom(int id);
         bool GetStatus(int id);
     }
