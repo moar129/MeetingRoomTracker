@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeetingRoomTrackerLib.Services.Discord_WebHook
 {
+    // Interface for Discord WebHook Service 
     public interface IDiscordWebHookService
     {
         Task SendMessageAsync(string message);

@@ -18,8 +18,6 @@ namespace MeetingRoomTrackerLib.Repos
             _context = Context;
 
             RoomsSeedData(); // Seed data if the Rooms table is empty
-
-
         }
 
         public Room Add(Room roomToBeCreated)

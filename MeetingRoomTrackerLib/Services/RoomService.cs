@@ -41,6 +41,8 @@ namespace MeetingRoomTrackerLib.Services
             }
             return _roomRepo.Add(room);
         }
+        
+        // Opdaterer et lokale og sender en notifikation, hvis lokalet bliver ledigt
         public async Task <Room> UpdateRoom(Room room)
         {
             if (room == null)
@@ -64,11 +66,7 @@ namespace MeetingRoomTrackerLib.Services
             }
             return updatedRoom;
         }
-        /// <summary>
-        /// Sends a notification to Discord when a room becomes free.
-        /// </summary>
-        /// <param name="room"></param>
-        /// <returns></returns>
+        // Sender en notifikation til Discord, når lokalet vi har valgt bliver ledigt
         private async Task SendRoomFreeNotification(Room room)
         {
             string roomName = room.Name ?? "Ukendt Lokale";

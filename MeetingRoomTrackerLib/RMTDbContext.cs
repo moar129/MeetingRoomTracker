@@ -28,7 +28,7 @@ namespace MeetingRoomTrackerLib
                 entity.Property(r => r.Name).IsRequired().HasMaxLength(100);
                 entity.Property(r => r.RoomType).HasConversion<int>(); // Store enum as int
                 entity.Property(r => r.Building).HasConversion<int>();
-
+                entity.Property(r => r.Status);
                 // Optional: unique constraint on Name + Building + Floor
                 entity.HasIndex(r => new { r.Name, r.Building, r.Floor }).IsUnique();
             });

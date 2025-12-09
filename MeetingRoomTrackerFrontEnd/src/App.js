@@ -12,6 +12,7 @@ export default {
       rooms: [],
       timeLogs: [],
       apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
+      apiURL: "https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net",
       statuses: {
         available: 'Ledig',
         occupied: 'Optaget',
