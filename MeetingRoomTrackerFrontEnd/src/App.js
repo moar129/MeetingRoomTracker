@@ -12,6 +12,7 @@ export default {
       rooms: [],
       timeLogs: [],
       apiBaseUrl: import.meta.env.VITE_API_BASE_URL,
+      apiURL: "https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net",
       statuses: {
         available: 'Ledig',
         occupied: 'Optaget',
@@ -43,7 +44,7 @@ export default {
     };
   },
   methods: {
-    async fetchRoomStatuses() {
+/*    async fetchRoomStatuses() {
       try {
         const response = await fetch(`${this.apiBaseUrl}/api/rooms/statuses`);
         if (response.ok) {
@@ -53,6 +54,16 @@ export default {
         }
       } catch (error) {
         console.error('Fejl ved håndtering af rumstatus:', error);
+      }
+        
+    },*/
+    async fetchRooms ()
+    {
+      try {
+        const response = (await fetch(`${this.apiURL}/api/rooms`)).json();
+    }
+      catch (error) {
+        console.error('Fejl ved hentning af rum:', error);
       }
     },
     getStatusLabel(status) {
