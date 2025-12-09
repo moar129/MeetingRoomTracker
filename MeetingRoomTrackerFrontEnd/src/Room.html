@@ -1,35 +1,42 @@
-<div class="room-detail-container">
-  <div class="overview-card" style="max-width: 600px;">
-    <div class="room-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <h1 style="margin: 0; color: white;">{{ room.name }}</h1>
-        <a href="https://discord.gg/TN9kBSnU" target="_blank" class="webhook-button">
-          <i class="bi bi-envelope"></i>
-        </a>
-      </div>
-      <span :class="'status status-' + (room.status ? 'occupied' : 'available')">{{ getStatusLabel(room.status ? 'occupied' : 'available') }}</span>
+<div class="overview-card roomview-card">
+
+  <!-- HEADER -->
+  <div class="roomview-header">
+    <div class="roomview-titleblock">
+      <h1 class="roomview-title">{{ room.name }}</h1>
+      <button class="webhook-button">✉</button>
     </div>
-    
-    <div class="room-info">
-      <div class="info-section">
-        <h2>Lokale information</h2>
-        <p><strong>Bygning:</strong> {{ room.building }}</p>
-        <p><strong>Etage:</strong> {{ room.floor }}</p>
-        <p><strong>Lokalenummer:</strong> #{{ room.roomNumber }}</p>
-        <p><strong>Rumkapacitet:</strong> {{ room.capacity }} personer</p>
-      </div>
-      
-      <div class="info-section" v-if="room.timeline && room.timeline.length > 0">
-        <h2>Historik</h2>
-        <div class="timeline">
-          <div v-for="entry in room.timeline" :key="entry.timestamp" class="timeline-entry">
-            <div class="timeline-time">{{ formatTime(entry.timestamp) }}</div>
-            <div class="timeline-event">
-              <span class="timeline-label">{{ entry.event }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <span class="status"
+          :class="room.status ? 'status-occupied' : 'status-available'">
+      {{ room.status ? "Optaget" : "Ledig" }}
+    </span>
+  </div>
+
+  <!-- INFO SECTION -->
+  <h2 class="info-section-title">Lokale information</h2>
+
+  <div class="info-section">
+    <p>Bygning: {{ buildingName }}</p>
+    <p>Etage: {{ room.floor }}</p>
+    <p>Lokalenummer: #{{ room.roomNumber }}</p>
+    <p>Rumkapacitet: {{ room.capacity }} personer</p>
+  </div>
+
+  <hr class="roomview-separator"/>
+
+  <!-- TIMELINE HEADER -->
+  <h2 class="timeline-title">Historik</h2>
+
+  <!-- TIMELINE LIST -->
+  <div class="timeline">
+    <div v-for="(entry, index) in formattedTimeline"
+         :key="index"
+         class="timeline-entry">
+
+      <span class="timeline-time">{{ entry.time }}</span>
+      <span class="timeline-label">{{ entry.label }}</span>
     </div>
   </div>
+
 </div>

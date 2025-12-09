@@ -19,41 +19,15 @@ export default {
       },
       selectedRoom: null,
       showRoomView: false,
-      mockRooms: [
-        { id: 1, name: 'Paris', roomNumber: 101, building: 'A', floor: 2, capacity: 8, status: false },
-        { id: 2, name: 'London', roomNumber: 102, building: 'A', floor: 2, capacity: 6, status: false },
-        { id: 3, name: 'New York', roomNumber: 103, building: 'A', floor: 2, capacity: 10, status: true },
-        { id: 4, name: 'Berlin', roomNumber: 201, building: 'B', floor: 3, capacity: 12, status: false },
-        { id: 5, name: 'Bern', roomNumber: 202, building: 'B', floor: 3, capacity: 8, status: true },
-        { id: 6, name: 'Lisbon', roomNumber: 203, building: 'B', floor: 3, capacity: 6, status: true },
-        { id: 7, name: 'Stockholm', roomNumber: 204, building: 'B', floor: 3, capacity: 10, status: true },
-        { id: 8, name: 'Oslo', roomNumber: 205, building: 'B', floor: 3, capacity: 8, status: false },
-        { id: 9, name: 'Helsinki', roomNumber: 206, building: 'B', floor: 3, capacity: 6, status: false },
-        { id: 10, name: 'Copenhagen', roomNumber: 207, building: 'B', floor: 3, capacity: 10, status: false },
-        { id: 11, name: 'Reykjavik', roomNumber: 208, building: 'B', floor: 3, capacity: 8, status: true },
-        { id: 12, name: 'Dublin', roomNumber: 209, building: 'B', floor: 3, capacity: 6, status: false },
-      ],
-      mockTimeline: [
-        { roomId: 1, timestamp: '2025-12-08T09:15:00', event: 'Møde startet' },
-        { roomId: 1, timestamp: '2025-12-08T10:30:00', event: 'Møde afsluttet' },
-        { roomId: 1, timestamp: '2025-12-08T13:00:00', event: 'Præsentation startet' },
-        { roomId: 1, timestamp: '2025-12-08T14:45:00', event: 'Præsentation afsluttet' },
-        { roomId: 1, timestamp: '2025-12-08T15:30:00', event: 'Workshop startet' }
-      ]
     };
   },
   methods: {
-    async fetchRoomStatuses() {
+    async fetchRooms() {
       try {
-        const response = await fetch(`${this.apiBaseUrl}/api/rooms/statuses`);
-        if (response.ok) {
-          this.rooms = await response.json();
-        } else {
-          console.error('Fejl ved hentning af rumstatus:', response.status);
-        }
-      } catch (error) {
-        console.error('Fejl ved håndtering af rumstatus:', error);
-      }
+        const response = await fetch(`${this.apiBaseUrl}/api/rooms`);
+        if (!response.ok) return;
+        this.rooms = await response.json();
+      } catch (err) {}
     },
     getStatusLabel(status) {
       return this.statuses[status] || this.statuses.unknown;
@@ -61,24 +35,73 @@ export default {
     getStatusClass(status) {
       return status || 'unknown';
     },
-    openRoom(roomId) {
-      const room = this.mockRooms.find(r => r.id === roomId);
-      if (room) {
-        this.selectedRoom = {
-          ...room,
-          timeline: this.mockTimeline.filter(t => t.roomId === roomId)
-        };
-        this.showRoomView = true;
-      }
-    },
+    async openRoom(roomId) {
+  try {
+    // Load the room from the API
+    const resRoom = await fetch(`${this.apiBaseUrl}/api/rooms/${roomId}`);
+    if (!resRoom.ok) return;
+    const room = await resRoom.json();
+
+    // Load all timelogs
+    const resLogs = await fetch(`${this.apiBaseUrl}/api/timelog`);
+    let logs = [];
+    if (resLogs.ok) logs = await resLogs.json();
+
+    // Filter logs for this room
+    const roomLogs = logs.filter(l => l.roomId === roomId);
+
+    // Build timeline format expected by RoomView
+    // Build timeline format expected by RoomView
+const timeline = roomLogs.map(log => ({
+  startEvent: log.startEvent,
+  endEvent: log.endEvent
+}));
+
+    this.selectedRoom = {
+      ...room,
+      timeline
+    };
+
+    this.showRoomView = true;
+
+  } catch (err) {}
+},
+
     goBack() {
       this.showRoomView = false;
       this.selectedRoom = null;
     }
   },
+  computed: {
+  groupedRooms() {
+  const buildingNames = {
+    0: "A",
+    1: "B",
+    2: "C",
+    3: "D",
+    4: "E"
+  };
+
+  const groups = {};
+
+  for (const r of this.rooms) {
+    const key = buildingNames[r.building] ?? r.building;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(r);
+  }
+
+  // Turn into a sorted array: A, B, C, D, E
+  return Object.keys(groups)
+    .sort()                          // alphabetical order
+    .map(key => ({
+      building: key,
+      rooms: groups[key]
+    }));
+}
+  },
   mounted() {
-    this.fetchRoomStatuses();
+    this.fetchRooms();
     // Optional: Refresh every 5 seconds
-    setInterval(this.fetchRoomStatuses, 5000);
+    setInterval(this.fetchRooms, 5000);
   }
 };

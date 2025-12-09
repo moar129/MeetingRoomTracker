@@ -1,186 +1,68 @@
 <div class="container-fluid">
   <div class="left">
     <div v-if="!showRoomView">
-      <header class="mb-4">
-        <h1 class="text-center-strong">Meeting Room Tracker</h1>
-        <p class="text-center text-muted">Status af ledige lokaler</p>
-        <p class="text-center">Mock data indtil videre</p>
-      </header>
 
-<!--Bygning A -->
-      <details class="overview-card mb-4" open>
-        <summary class="overview-row">
-          <h2 class="overview-title">Bygning A</h2>
-          <div style="margin-left:auto; display:flex; gap:12px; align-items:center;">
-            <div class="overview-stat">
-              <span class="overview-label">Ledige</span>
-              <span class="overview-value available-count">2</span>
-            </div>
-            <div class="overview-stat">
-              <span class="overview-label">Optaget</span>
-              <span class="overview-value occupied-count">1</span>
-            </div>
-            <div class="overview-stat">
-              <span class="overview-label">I alt</span>
-              <span class="overview-value total-count">3</span>
-            </div>
-            <span class="chevron">›</span>
-          </div>
-        </summary>
+<header class="mb-4">
+  <h1 class="text-center-strong">Meeting Room Tracker</h1>
+  <h2 class="text-center text-muted">Status af ledige lokaler</p>
+</header>
 
-        <div class="room-list">
-          <ul>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(1)" class="room-link">Paris: <small>#101</small></a>
-              <span class="status status-available">Ledig</span>
-            </li>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(2)" class="room-link">London: <small>#102</small></a>
-              <span class="status status-available">Ledig</span>
-            </li>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(3)" class="room-link">New York: <small>#103</small></a>
-              <span class="status status-occupied">Optaget</span>
-            </li>
-          </ul>
-        </div>
-      </details>
-      
-    <h1>&nbsp;</h1>
 
-<!--Bygning B -->
-      <details class="overview-card mb-4" open>
-        <summary class="overview-row">
-          <h2 class="overview-title">Bygning B</h2>
-          <div style="margin-left:auto; display:flex; gap:12px; align-items:center;">
-            <div class="overview-stat">
-              <span class="overview-label">Ledige</span>
-              <span class="overview-value available-count">4</span>
-            </div>
-            <div class="overview-stat">
-              <span class="overview-label">Optaget</span>
-              <span class="overview-value occupied-count">5</span>
-            </div>
-            <div class="overview-stat">
-              <span class="overview-label">I alt</span>
-              <span class="overview-value total-count">9</span>
-            </div>
-            <span class="chevron">›</span>
-          </div>
-        </summary>
+      <div v-for="group in groupedRooms" :key="group.building">
 
-        <div class="room-list">
-          <ul>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(4)" class="room-link">Berlin <small>#201</small></a>
-              <span class="status status-available">Ledig</span>
-            </li>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(5)" class="room-link">Bern: <small>#202</small></a>
-              <span class="status status-occupied">Optaget</span>
-            </li>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(6)" class="room-link">Lisbon: <small>#203</small></a>
-              <span class="status status-occupied">Optaget</span>
-            </li>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(7)" class="room-link">Stockholm: <small>#204</small></a>
-              <span class="status status-occupied">Optaget</span>
-            </li>
-            <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(8)" class="room-link">Oslo: <small>#205</small></a>
-              <span class="status status-available">Ledig</span>
-            </li>
-              <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(9)" class="room-link">Helsinki: <small>#206</small></a>
-              <span class="status status-available">Ledig</span>
-            </li>
-              <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(10)" class="room-link">Copenhagen: <small>#207</small></a>
-              <span class="status status-available">Ledig</span>
-            </li>
-              <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(11)" class="room-link">Reykjavik: <small>#208</small></a>
-              <span class="status status-occupied">Optaget</span>
+        <details class="overview-card mb-4" open>
+          <summary class="overview-row">
+            <h2 class="overview-title">Bygning {{ group.building }}</h2>
+
+            <div style="margin-left:auto; display:flex; gap:12px; align-items:center;">
+              <div class="overview-stat">
+                <span class="overview-label">Ledige</span>
+                <span class="overview-value available-count">
+                  {{ group.rooms.filter(r => !r.status).length }}
+                </span>
+              </div>
+
+              <div class="overview-stat">
+                <span class="overview-label">Optaget</span>
+                <span class="overview-value occupied-count">
+                  {{ group.rooms.filter(r => r.status).length }}
+                </span>
+              </div>
+
+              <div class="overview-stat">
+                <span class="overview-label">I alt</span>
+                <span class="overview-value total-count">
+                  {{ group.rooms.length }}
+                </span>
+              </div>
+
+              <span class="chevron">›</span>
+            </div>
+          </summary>
+
+          <div class="room-list">
+            <ul>
+              <li v-for="room in group.rooms" :key="room.id" class="room-list-item">
+                <a href="#" @click.prevent="openRoom(room.id)" class="room-link">
+                  {{ room.name }} <small>#{{ room.roomNumber }}</small>
+                </a>
+                <span class="status" :class="room.status ? 'status-occupied' : 'status-available'">
+                  {{ room.status ? 'Optaget' : 'Ledig' }}
+                </span>
               </li>
-              <li class="room-list-item">
-              <a href="#" @click.prevent="openRoom(12)" class="room-link">Dublin: <small>#209</small></a>
-              <span class="status status-available">Ledig</span>
-          </ul>
-        </div>
-      </details>
-<h1>&emsp;</h1>
+            </ul>
+          </div>
+        </details>
 
-<!--Bygning C -->
-        <div class="overview-card mb-4 me-4">
-      <div class="overview-row">
-        <h2 class="overview-title">Bygning C</h2>
-      </div>
-      <div class="overview-row">
-        <div class="overview-stat">
-          <span class="overview-label">Ledige</span>
-          <span class="overview-value available-count">6</span>
-        </div>
-        <div class="overview-stat">
-          <span class="overview-label">Optaget</span>
-          <span class="overview-value occupied-count">7</span>
-        </div>
-        <div class="overview-stat">
-          <span class="overview-label">I alt</span>
-          <span class="overview-value total-count">13</span>
-        </div>
-      </div>
-    </div>
-    <h1>&emsp;</h1>
+      </div> <!-- END v-for -->
 
-    <!--Bygning D -->
-          <div class="overview-card mb-4 me-4">
-      <div class="overview-row">
-        <h2 class="overview-title">Bygning D</h2>
-      </div>
-      <div class="overview-row">
-        <div class="overview-stat">
-          <span class="overview-label">Ledige</span>
-          <span class="overview-value available-count">9</span>
-        </div>
-        <div class="overview-stat">
-          <span class="overview-label">Optaget</span>
-          <span class="overview-value occupied-count">5</span>
-        </div>
-        <div class="overview-stat">
-          <span class="overview-label">I alt</span>
-          <span class="overview-value total-count">14</span>
-        </div>
-      </div>
-    </div>
-    <h1>&emsp;</h1>
-
-    <!--Bygning E-->
-            <div class="overview-card mb-4 me-4">
-      <div class="overview-row">
-        <h2 class="overview-title">Bygning E</h2>
-      </div>
-      <div class="overview-row">
-        <div class="overview-stat">
-          <span class="overview-label">Ledige</span>
-          <span class="overview-value available-count">3</span>
-        </div>
-        <div class="overview-stat">
-          <span class="overview-label">Optaget</span>
-          <span class="overview-value occupied-count">2</span>
-        </div>
-        <div class="overview-stat">
-          <span class="overview-label">I alt</span>
-          <span class="overview-value total-count">5</span>
-        </div>
-      </div>
-    </div>
-    <h1>&emsp;</h1>  
-    </div>
+    </div> <!-- END v-if -->
 
     <div v-else>
-      <button @click="goBack" style="margin: 20px; padding: 10px 20px; cursor: pointer;">← Tilbage til oversigten</button>
+      <button class="back-button" @click="goBack">← Tilbage til oversigten</button>
+
       <RoomView v-if="selectedRoom" :room="selectedRoom" />
     </div>
-  </div>
-</div>
+
+  </div> <!-- END .left -->
+</div> <!-- END .container-fluid -->
