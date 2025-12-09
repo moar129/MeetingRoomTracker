@@ -43,7 +43,7 @@ namespace MeetingRoomTrackerLib.Services
             {
                 throw new ArgumentNullException(nameof(timeLog), "TimeLog cannot be null.");
             }
-            TimeLog? existingTimeLog = _timeLogRepo.GetById(timeLog.Id);
+            TimeLog? existingTimeLog = GetTimeLogById(timeLog.Id);
             if (existingTimeLog == null)
             {
                 throw new KeyNotFoundException($"TimeLog with ID {timeLog.Id} not found.");
@@ -53,7 +53,7 @@ namespace MeetingRoomTrackerLib.Services
 
         public TimeLog DeleteTimeLog(int id)
         {
-            TimeLog? existingTimeLog = _timeLogRepo.GetById(id);
+            TimeLog? existingTimeLog = GetTimeLogById(id);
             if (existingTimeLog == null)
             {
                 throw new KeyNotFoundException($"TimeLog with ID {id} not found.");
