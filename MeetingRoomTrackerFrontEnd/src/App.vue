@@ -65,32 +65,34 @@
         <!-- ==================== FOOTER ==================== -->
         <footer class="mt-5 pt-4 text-center text-white">
 
-            <!-- Modern Discord Footer Banner -->
-            <div class="mt-3 p-3 text-white rounded-4" style="background-color: #5865F2; border-radius: 16px;">
+            <!-- Modern Discord Footer Banner (Entire Banner Is Clickable) -->
+            <a href="https://discord.gg/GARymCAQvG" target="_blank" class="text-decoration-none text-white"
+                style="display: block;">
 
-                <!-- Discord CTA -->
-                <a href="https://discord.gg/GARymCAQvG" target="_blank" class="text-decoration-none text-white">
+                <div class="mt-3 p-3 text-white rounded-4" style="background-color: #5865F2; border-radius: 16px;">
+
+                    <!-- Centered Discord CTA -->
                     <div class="d-flex flex-column align-items-center justify-content-center mb-2 text-center">
                         <i class="bi bi-discord fs-3 mb-1"></i>
-                        <div>
-                            <span class="fw-bold" style="font-size: 1rem;">Join vores Discord</span><br>
-                        </div>
+                        <span class="fw-bold" style="font-size: 1rem;">Join vores Discord</span>
                     </div>
-                </a>
 
-                <!-- App description -->
-                <p class="mb-2 mt-2">
-                    <small>
-                        Meeting Room Tracker er en live opdateret oversigt over ledige lokaler på skolen.
-                    </small>
-                </p>
+                    <!-- App description -->
+                    <p class="mb-2 mt-2 text-center">
+                        <small>
+                            Meeting Room Tracker er en live opdateret oversigt over ledige lokaler på skolen.
+                        </small>
+                    </p>
 
-                <!-- Copyright -->
-                <p class="mb-0">
-                    <small>© 2025 Mødelokaler</small>
-                </p>
+                    <!-- Copyright -->
+                    <p class="mb-0 text-center">
+                        <small>© 2025 Mødelokaler</small>
+                    </p>
 
-            </div>
+                </div>
+
+            </a>
+
         </footer>
     </div>
 </template>
