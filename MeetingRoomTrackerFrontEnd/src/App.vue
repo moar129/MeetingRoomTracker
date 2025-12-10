@@ -68,9 +68,7 @@
             <!-- Modern Discord Footer Banner (Entire Banner Is Clickable) -->
             <a href="https://discord.gg/GARymCAQvG" target="_blank" class="text-decoration-none text-white"
                 style="display: block;">
-
                 <div class="mt-3 p-3 text-white rounded-4" style="background-color: #5865F2; border-radius: 16px;">
-
                     <!-- Centered Discord CTA -->
                     <div class="d-flex flex-column align-items-center justify-content-center mb-2 text-center">
                         <i class="bi bi-discord fs-3 mb-1"></i>
@@ -88,9 +86,7 @@
                     <p class="mb-0 text-center">
                         <small>© 2025 Mødelokaler</small>
                     </p>
-
                 </div>
-
             </a>
 
         </footer>
