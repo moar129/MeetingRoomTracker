@@ -64,16 +64,16 @@
 
         <!-- ==================== FOOTER ==================== -->
         <footer class="mt-5 pt-4 text-center text-white">
+
             <!-- Modern Discord Footer Banner -->
             <div class="mt-3 p-3 text-white rounded-4" style="background-color: #5865F2; border-radius: 16px;">
 
                 <!-- Discord CTA -->
                 <a href="https://discord.gg/GARymCAQvG" target="_blank" class="text-decoration-none text-white">
-                    <div class="d-flex align-items-center mb-2">
-                        <i class="bi bi-discord fs-3 me-2"></i>
+                    <div class="d-flex flex-column align-items-center justify-content-center mb-2 text-center">
+                        <i class="bi bi-discord fs-3 mb-1"></i>
                         <div>
                             <span class="fw-bold" style="font-size: 1rem;">Join vores Discord</span><br>
-                            <small>Bliv en del af fællesskabet</small>
                         </div>
                     </div>
                 </a>
@@ -84,10 +84,12 @@
                         Meeting Room Tracker er en live opdateret oversigt over ledige lokaler på skolen.
                     </small>
                 </p>
+
                 <!-- Copyright -->
                 <p class="mb-0">
                     <small>© 2025 Mødelokaler</small>
                 </p>
+
             </div>
         </footer>
     </div>
