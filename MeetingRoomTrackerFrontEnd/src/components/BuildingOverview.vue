@@ -12,9 +12,9 @@
             <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-building fs-4" style="color: #5b8def;"></i>
                 <div>
-                    <h3 class="mb-0 fw-bold">Bygning {{ group.building }}</h3>
+                    <h3 class="mb-0 fw-bold">Bygning {{ group.building }}</h3><br>
                     <!-- Changes text depending on whether it's open or closed -->
-                    <small class="text-muted">{{ isOpen ? 'Skjul' : 'Vis' }} lokaler</small>
+                    <small class="text-white">{{ isOpen ? 'Skjul' : 'Vis' }} lokaler</small>
                 </div>
             </div>
 
