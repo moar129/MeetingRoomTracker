@@ -7,8 +7,7 @@
         <!-- ==================== HEADER ==================== -->
         <header class="text-center mb-5">
             <!-- Big title of the app -->
-            <a href="index.html" @click="goBack" class="text-decoration-none"
-                style="cursor: pointer;">
+            <a href="index.html" @click="goBack" class="text-decoration-none" style="cursor: pointer;">
                 <h1 class="display-5 fw-bold header-accent">Meeting Room Tracker</h1>
             </a>
         </header>
@@ -65,28 +64,31 @@
 
         <!-- ==================== FOOTER ==================== -->
         <footer class="mt-5 pt-4 text-center text-white">
-            <!-- About the app -->
-            <p class="mb-2">
-                <small>
-                    Meeting Room Tracker er live opdateret oversigt over lokaler på skolen.
-                </small>
-            </p>
+            <!-- Modern Discord Footer Banner -->
+            <div class="mt-3 p-3 text-white rounded-4" style="background-color: #5865F2; border-radius: 16px;">
 
-            <!-- Discord link -->
-            <p>
-                <a href="https://discord.gg/GARymCAQvG" target="_blank" class="text-decoration-none"
-                    title="Join vores Discord">
-                    <i class="bi bi-discord fs-4"></i>
-                    <span class="ms-2">Join Discord</span>
+                <!-- Discord CTA -->
+                <a href="https://discord.gg/GARymCAQvG" target="_blank" class="text-decoration-none text-white">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-discord fs-3 me-2"></i>
+                        <div>
+                            <span class="fw-bold" style="font-size: 1rem;">Join vores Discord</span><br>
+                            <small>Bliv en del af fællesskabet</small>
+                        </div>
+                    </div>
                 </a>
-            </p>
 
-            <!-- Copyright -->
-            <p class="mb-2">
-                <small>
-                    © 2025 Mødelokaler
-                </small>
-            </p>
+                <!-- App description -->
+                <p class="mb-2 mt-2">
+                    <small>
+                        Meeting Room Tracker er en live opdateret oversigt over ledige lokaler på skolen.
+                    </small>
+                </p>
+                <!-- Copyright -->
+                <p class="mb-0">
+                    <small>© 2025 Mødelokaler</small>
+                </p>
+            </div>
         </footer>
     </div>
 </template>
