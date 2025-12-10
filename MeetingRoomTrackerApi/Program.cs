@@ -47,15 +47,22 @@ builder.Services.AddScoped<IRepos<TimeLog>, TimeLogRepo>();
 builder.Services.AddHttpClient<IDiscordWebHookService, DiscordWebHookService>();
 
 var app = builder.Build();
+// Serve static files
+app.UseDefaultFiles();// serves index.html at /
+// Serve static files (Vue app in wwwroot)
+app.UseStaticFiles();// serves /assets/*
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     // Redirect root Swagger UI
     app.MapGet("/", () => Results.Redirect("/swagger"));
 }
+
+
 // Use CORS policy
 app.UseCors("AllowAll");
+
 
 // Swagger middleware
 app.UseSwagger();
@@ -67,6 +74,8 @@ app.UseSwaggerUI(options =>
 
 app.UseAuthorization();
 app.MapControllers();
+// Fallback to serve index.html for SPA
+app.MapFallbackToFile("index.html");
 
 
 app.Run();
