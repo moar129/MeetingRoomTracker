@@ -7,7 +7,10 @@
         <!-- ==================== HEADER ==================== -->
         <header class="text-center mb-5">
             <!-- Big title of the app -->
-            <h1 class="display-5 fw-bold header-accent">Meeting Room Tracker</h1>
+            <a href="index.html" @click="goBack" class="text-decoration-none"
+                style="cursor: pointer;">
+                <h1 class="display-5 fw-bold header-accent">Meeting Room Tracker</h1>
+            </a>
         </header>
 
         <!-- ==================== OVERVIEW PAGE (shows all buildings) ==================== -->
