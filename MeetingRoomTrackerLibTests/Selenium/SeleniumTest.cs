@@ -20,6 +20,8 @@ namespace MeetingRoomTrackerLibTests.Selenium
         public static void Setup(TestContext context)
         {
             _driver = new ChromeDriver(DriverDirectory);
+
+            // wait for vue the page to load
             _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
@@ -34,21 +36,17 @@ namespace MeetingRoomTrackerLibTests.Selenium
         {
             _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
             Assert.AreEqual("Meeting Room Tracker", _driver.Title);
-        }
-        [TestMethod]
-        public void TestFindElementById()
-        {
-            _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-            var element = _driver.FindElement(By.Id("app"));
-            Assert.IsNotNull(element);
+            var header = _driver.FindElement(By.TagName("h1"));
+            Assert.IsNotNull(header);
         }
         [TestMethod]
         public void TestClickElement()
         {
             _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-            var element = _driver.FindElement(By.Id("CLickBuilding"));
-            element.Click();
-            
+            var el = _driver.FindElement(By.Id("CLickBuilding"));
+            Assert.IsNotNull("CLickBuilding");
+            el.Click();
+
         }
     }
 }

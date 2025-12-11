@@ -179,7 +179,7 @@ const globalTotalRooms = computed(() => rooms.value.length)
 // When the page loads → get data and refresh every 5 seconds
 onMounted(() => {
     fetchRooms()                     // Load data immediately
-    setInterval(fetchRooms, 5000)    // Refresh every 5 seconds (5000 ms)
+    setInterval(fetchRooms, 1000)    // Refresh every 1 seconds (1000 ms)
 })
 </script>
 
