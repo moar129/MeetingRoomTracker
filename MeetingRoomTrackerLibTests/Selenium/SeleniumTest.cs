@@ -40,13 +40,65 @@ namespace MeetingRoomTrackerLibTests.Selenium
             Assert.IsNotNull(header);
         }
         [TestMethod]
-        public void TestClickElement()
+        public void TestClickBuildingAccordion()
         {
             _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-            var el = _driver.FindElement(By.Id("CLickBuilding"));
-            Assert.IsNotNull("CLickBuilding");
-            el.Click();
 
+            // Wait for the building header to appear
+            var buildingHeader = _wait.Until(d => d.FindElement(By.Id("CLickBuilding")));
+            Assert.IsNotNull(buildingHeader);
+
+            // Click to open
+            buildingHeader.Click();
+
+            // Wait for the room list to appear
+            var rooms = _wait.Until(d => d.FindElements(By.CssSelector(".border-bottom.border-secondary")));
+            Assert.IsTrue(rooms.Count > 0, "No rooms found after opening the building.");
         }
+
+        [TestMethod]
+        public void TestRoomsSortedByAvailabilityAndName()
+        {
+            _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
+            var roomNames = new List<string>();
+            var roomStatus = new List<string>();
+
+            // Open building accordion
+            var buildingHeader = _wait.Until(d => d.FindElement(By.Id("CLickBuilding")));
+            buildingHeader.Click();
+
+            // Wait for rooms
+            var rooms = _wait.Until(d => d.FindElements(By.CssSelector(".border-bottom.border-secondary")));
+            foreach (var room in rooms)
+            {
+                var name = room.FindElement(By.CssSelector(".cursor-pointer strong")).Text;
+                var status = room.FindElement(By.CssSelector("span.rounded-pill")).Text;
+
+                roomNames.Add(name);
+                roomStatus.Add(status);
+            }
+
+            // 1. Check that all free rooms come first
+            bool seenOccupied = false;
+            foreach (var status in roomStatus)
+            {
+                if (status == "Optaget")
+                {
+                    seenOccupied = true;
+                }
+                else if (status == "Ledig" && seenOccupied)
+                {
+                    Assert.Fail("Free room appears after an occupied room.");
+                }
+            }
+            // 2. Check alphabetical order for free rooms
+            var freeRoomNames = roomNames.Where((n, i) => roomStatus[i] == "Ledig").ToList();
+            var sortedFree = new List<string>(freeRoomNames);
+            sortedFree.Sort(StringComparer.Ordinal);
+            CollectionAssert.AreEqual(sortedFree, freeRoomNames, "Free rooms are not sorted alphabetically.");
+        }
+
+
+
     }
 }
