@@ -34,6 +34,21 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
+          
+  unit-and-ui-tests:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+
+      - name: Run ALL tests in MeetingRoomTrackerLibTests
+        run: dotnet test MeetingRoomTrackerLibTests/MeetingRoomTrackerLibTests.csproj --configuration Release
+
   api-tests:
     runs-on: windows-latest
     needs: build
@@ -54,7 +69,7 @@ jobs:
 
   deploy:
     runs-on: windows-latest
-    needs: build
+    needs: [build, unit-and-ui-tests, api-tests]
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
@@ -83,4 +98,5 @@ jobs:
           package: .
 
           
+
 
