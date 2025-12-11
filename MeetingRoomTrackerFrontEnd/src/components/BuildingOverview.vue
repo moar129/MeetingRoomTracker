@@ -6,7 +6,7 @@
 
         <!-- CLICKABLE HEADER – click anywhere here to open/close the building -->
         <div id="CLickBuilding" class="d-flex justify-content-between align-items-center p-4 cursor-pointer"
-            @click="isOpen = !isOpen" style="background: #161625;">
+            @click="isOpen = !isOpen" style="background: #161625;" :data-testid="'building-' + group.building">
 
             <!-- Left side: Building icon + name + "Vis/Skjul lokaler" text -->
             <div class="d-flex align-items-center gap-3">
@@ -44,7 +44,7 @@
                 <!-- Loop through all rooms in sorted order -->
                 <div v-for="room in sortedRooms" :key="room.id"
                     class="d-flex justify-content-between align-items-center py-3 border-bottom border-secondary"
-                    style="border-color: #2a2a3d !important;" @click="$emit('open-room', room.id)">
+                    style="border-color: #2a2a3d !important;" @click="$emit('open-room', room.id)" :data-testid="'room-' + room.id">
 
                     <!-- Room name + number -->
                     <div class="cursor-pointer">
@@ -53,7 +53,7 @@
                     </div>
 
                     <!-- Status badge – red if busy, green if free -->
-                    <span class="px-4 py-2 rounded-pill fw-bold" :style="room.status
+                    <span class="px-4 py-2 rounded-pill fw-bold" :data-testid="'room-status-' + room.id" :style="room.status
                         ? 'background: #331f1f; color: #f87171;'
                         : 'background: #21332f; color: #4ade80;'">
                         {{ room.status ? 'Optaget' : 'Ledig' }}

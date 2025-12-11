@@ -19,8 +19,8 @@
 
         <!-- All the room details -->
         <div class="flex-grow-1">
-          <h2 class="h3 fw-bold mb-1">{{ room.name }}</h2>
-          <p class="text-white mb-3">Lokalenummer: #{{ room.roomNumber }}</p>
+          <h2 class="h3 fw-bold mb-1" data-testid="room-name">{{ room.name }}</h2>
+          <p class="text-white mb-3" data-testid="room-number">Lokalenummer: #{{ room.roomNumber }}</p>
 
           <!-- Grid with 4 pieces of info -->
           <div class="row g-3">
@@ -30,7 +30,7 @@
             <div class="col-sm-6">
               <strong>Status:</strong>
               <!-- Green pill if free, red if busy -->
-              <span class="px-4 py-2 rounded-pill fw-bold ms-2" :style="room.status
+              <span class="px-4 py-2 rounded-pill fw-bold ms-2" data-testid="room-status" :style="room.status
                 ? 'background:#331f1f;color:#f87171'
                 : 'background:#21332f;color:#4ade80'">
                 {{ room.status ? 'Optaget' : 'Ledig' }}
@@ -51,7 +51,7 @@
       <!-- IF THERE IS HISTORY – show all events (newest first!) -->
       <div v-if="history.length" class="space-y-3">
         <div v-for="entry in history" :key="entry.time + entry.desc + Math.random()"
-          class="d-flex justify-content-between align-items-center py-3 border-bottom" style="border-color:#2a2a3d;">
+          class="d-flex justify-content-between align-items-center py-3 border-bottom" style="border-color:#2a2a3d;" :data-testid="'history-' + entry.time">
 
           <!-- Time + description -->
           <div>
