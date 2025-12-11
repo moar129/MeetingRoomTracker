@@ -85,16 +85,24 @@ namespace MeetingRoomTrackerLibTests.Selenium
         [TestMethod]
         public void TestRoomRome()
         {
-            System.Threading.Thread.Sleep(2000); // wait for Vue to load
+            // Wait for Vue to load buildings
+            System.Threading.Thread.Sleep(2000);
 
+            // Click Building D to expand it
             var buildingD = _driver.FindElement(By.XPath("//h3[contains(text(),'Bygning D')]"));
             buildingD.Click();
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(1200); // wait for transition (fade) to finish
 
-            var roomRome = _driver.FindElement(By.XPath("//div[strong[text()='Rome']]"));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", roomRome);
-            System.Threading.Thread.Sleep(200);
-            roomRome.Click();
+            // Find the room named "Rome"
+            var roomRome = _driver.FindElement(By.XPath("//div[div/strong[text()='Rome']]"));
+
+            // Scroll it into view
+            ((IJavaScriptExecutor)_driver).ExecuteScript(
+                "arguments[0].scrollIntoView({block:'center', behavior:'instant'});", roomRome);
+            System.Threading.Thread.Sleep(300); // give time for scrolling
+
+            // Click the room via JavaScript (always, no if/else)
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", roomRome);
         }
 
 
@@ -103,24 +111,32 @@ namespace MeetingRoomTrackerLibTests.Selenium
         [TestMethod]
         public void TestRoomViewDiscordLink()
         {
-            System.Threading.Thread.Sleep(2000); // wait for Vue to load
+            // Wait for Vue to load buildings
+            System.Threading.Thread.Sleep(2000);
 
+            // Click Building D to expand
             var buildingD = _driver.FindElement(By.XPath("//h3[contains(text(),'Bygning D')]"));
             buildingD.Click();
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(1200); // wait for fade transition
 
-            var roomRome = _driver.FindElement(By.XPath("//div[strong[text()='Rome']]"));
-            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", roomRome);
-            System.Threading.Thread.Sleep(200);
-            roomRome.Click();
+            // Find and click the room "Rome"
+            var roomRome = _driver.FindElement(By.XPath("//div[div/strong[text()='Rome']]"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript(
+                "arguments[0].scrollIntoView({block:'center', behavior:'instant'});", roomRome);
+            System.Threading.Thread.Sleep(300);
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", roomRome);
 
-            // Find the Discord link anywhere in the RoomView
+            // Wait for RoomView to render
+            System.Threading.Thread.Sleep(500);
+
+            // Find the Discord link inside RoomView
             var discordLink = _driver.FindElement(By.XPath("//a[contains(@href,'discord.gg')]"));
 
-            // Simple assertions
+            // Assertions
             Assert.IsTrue(discordLink.Displayed, "Discord link in RoomView is not visible.");
             Assert.IsTrue(discordLink.GetAttribute("href").Contains("discord.gg"), "Discord link does not point to Discord.");
         }
+
 
 
         [TestMethod]
