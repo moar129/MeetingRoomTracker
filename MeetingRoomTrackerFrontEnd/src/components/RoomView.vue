@@ -99,7 +99,7 @@ const roomTypeName = computed(() => {
   return types[props.room.roomType] || 'Ukendt type'
 })
 
-// Helper to format ISO time → "14:25"
+// Helper to format ISO time → "10.12, 14:25"
 const formatTime = (dateString) => {
   if (!dateString) return '—'
   return new Date(dateString).toLocaleTimeString('da-DK', {
