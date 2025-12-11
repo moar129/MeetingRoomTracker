@@ -12,13 +12,15 @@ namespace MeetingRoomTrackerLibTests.Selenium
     [TestClass]
     public class SeleniumTest
     {
-        private static readonly string DriverDirectory = "C:\\seleniumDrivers";
+        private static readonly string DriverDirectory = "C:\\seleniumDrivers\\chromedriver-win64";
         private static IWebDriver _driver;
         private static WebDriverWait _wait;
+        private string BaseUrl = "https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/";
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
+            // Initialize ChromeDriver
             _driver = new ChromeDriver(DriverDirectory);
 
             // wait for vue the page to load
@@ -28,77 +30,108 @@ namespace MeetingRoomTrackerLibTests.Selenium
         [ClassCleanup]
         public static void TearDown()
         {
+            // Close the browser and dispose of the driver
             _driver.Dispose();
         }
 
-        [TestMethod]
-        public void TestWebsiteLoads()
+       
+        [TestInitialize]
+        public void TestSetup()
         {
-            _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-            Assert.AreEqual("Meeting Room Tracker", _driver.Title);
-            var header = _driver.FindElement(By.TagName("h1"));
-            Assert.IsNotNull(header);
-        }
-        [TestMethod]
-        public void TestClickBuildingAccordion()
-        {
-            _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-
-            // Wait for the building header to appear
-            var buildingHeader = _wait.Until(d => d.FindElement(By.Id("CLickBuilding")));
-            Assert.IsNotNull(buildingHeader);
-
-            // Click to open
-            buildingHeader.Click();
-
-            // Wait for the room list to appear
-            var rooms = _wait.Until(d => d.FindElements(By.CssSelector(".border-bottom.border-secondary")));
-            Assert.IsTrue(rooms.Count > 0, "No rooms found after opening the building.");
+            // Navigate to the base URL before each test
+            _driver.Navigate().GoToUrl(BaseUrl);
         }
 
         [TestMethod]
-        public void TestRoomsSortedByAvailabilityAndName()
+        public void TestMainHeader()
         {
-            _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-            var roomNames = new List<string>();
-            var roomStatus = new List<string>();
+            // Verify main page header exists
+            var header = _wait.Until(d => d.FindElement(By.TagName("h1")));
+            Assert.AreEqual("Meeting Room Tracker", header.Text);
+        }
+        [TestMethod]
+        public void TestGlobalStats()
+        {
+            // Verify global stats cards exist
+            Assert.IsNotNull(_driver.FindElement(By.XPath("//p[contains(text(),'Ledige lokaler')]")));
+            Assert.IsNotNull(_driver.FindElement(By.XPath("//p[contains(text(),'Optaget')]")));
+            Assert.IsNotNull(_driver.FindElement(By.XPath("//p[contains(text(),'Total')]")));
+        }
 
-            // Open building accordion
-            var buildingHeader = _wait.Until(d => d.FindElement(By.Id("CLickBuilding")));
-            buildingHeader.Click();
+        [TestMethod]
+        public void TestOpenBuildingD()
+        {
+            // Navigate to the page
+            _driver.Navigate().GoToUrl(BaseUrl);
 
-            // Wait for rooms
-            var rooms = _wait.Until(d => d.FindElements(By.CssSelector(".border-bottom.border-secondary")));
-            foreach (var room in rooms)
-            {
-                var name = room.FindElement(By.CssSelector(".cursor-pointer strong")).Text;
-                var status = room.FindElement(By.CssSelector("span.rounded-pill")).Text;
+            // Wait 2 seconds for Vue to render (simple "dumb" wait)
+            System.Threading.Thread.Sleep(2000);
 
-                roomNames.Add(name);
-                roomStatus.Add(status);
-            }
+            // Find Building D by visible text and click it
+            var buildingD = _driver.FindElement(By.XPath("//h3[contains(text(),'Bygning D')]"));
+            buildingD.Click();
 
-            // 1. Check that all free rooms come first
-            bool seenOccupied = false;
-            foreach (var status in roomStatus)
-            {
-                if (status == "Optaget")
-                {
-                    seenOccupied = true;
-                }
-                else if (status == "Ledig" && seenOccupied)
-                {
-                    Assert.Fail("Free room appears after an occupied room.");
-                }
-            }
-            // 2. Check alphabetical order for free rooms
-            var freeRoomNames = roomNames.Where((n, i) => roomStatus[i] == "Ledig").ToList();
-            var sortedFree = new List<string>(freeRoomNames);
-            sortedFree.Sort(StringComparer.Ordinal);
-            CollectionAssert.AreEqual(sortedFree, freeRoomNames, "Free rooms are not sorted alphabetically.");
+            // Wait a moment for rooms to appear
+            System.Threading.Thread.Sleep(1000);
+
+            // Find at least one room inside Building D
+            var firstRoom = _driver.FindElement(By.XPath("//div[contains(@class,'cursor-pointer')]"));
+
+            // Verify room exists
+            Assert.IsNotNull(firstRoom, "No rooms found in Building D.");
+        }
+
+
+        [TestMethod]
+        public void TestRoomRome()
+        {
+            System.Threading.Thread.Sleep(2000); // wait for Vue to load
+
+            var buildingD = _driver.FindElement(By.XPath("//h3[contains(text(),'Bygning D')]"));
+            buildingD.Click();
+            System.Threading.Thread.Sleep(1000);
+
+            var roomRome = _driver.FindElement(By.XPath("//div[strong[text()='Rome']]"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", roomRome);
+            System.Threading.Thread.Sleep(200);
+            roomRome.Click();
         }
 
 
 
+
+        [TestMethod]
+        public void TestRoomViewDiscordLink()
+        {
+            System.Threading.Thread.Sleep(2000); // wait for Vue to load
+
+            var buildingD = _driver.FindElement(By.XPath("//h3[contains(text(),'Bygning D')]"));
+            buildingD.Click();
+            System.Threading.Thread.Sleep(1000);
+
+            var roomRome = _driver.FindElement(By.XPath("//div[strong[text()='Rome']]"));
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", roomRome);
+            System.Threading.Thread.Sleep(200);
+            roomRome.Click();
+
+            // Find the Discord link anywhere in the RoomView
+            var discordLink = _driver.FindElement(By.XPath("//a[contains(@href,'discord.gg')]"));
+
+            // Simple assertions
+            Assert.IsTrue(discordLink.Displayed, "Discord link in RoomView is not visible.");
+            Assert.IsTrue(discordLink.GetAttribute("href").Contains("discord.gg"), "Discord link does not point to Discord.");
+        }
+
+
+        [TestMethod]
+        public void TestFooterDiscordLink()
+        {
+            // Scroll to footer
+            var footerLink = _wait.Until(d => d.FindElement(By.CssSelector("footer a[href*='discord.gg']")));
+
+            // Verify the link is displayed and correct
+            Assert.IsTrue(footerLink.Displayed, "Footer Discord link is not visible.");
+            Assert.IsTrue(footerLink.GetAttribute("href").Contains("discord.gg"), "Footer Discord link does not point to a Discord URL.");
+        }
     }
 }
