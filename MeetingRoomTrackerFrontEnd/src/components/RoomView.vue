@@ -103,6 +103,8 @@ const roomTypeName = computed(() => {
 const formatTime = (dateString) => {
   if (!dateString) return '—'
   return new Date(dateString).toLocaleTimeString('da-DK', {
+    day: '2-digit',
+    month: '2-digit',
     hour: '2-digit',
     minute: '2-digit'
   })
