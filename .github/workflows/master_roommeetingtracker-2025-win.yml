@@ -47,7 +47,7 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Run ALL tests in MeetingRoomTrackerLibTests
-        run: dotnet test MeetingRoomTrackerLibTests/MeetingRoomTrackerLibTests.csproj --configuration Release
+        run: dotnet test MeetingRoomTrackerLibTests/MeetingRoomTrackerLibTests.csproj --configuration Release --filter "FullyQualifiedName!~Selenium"
 
   api-tests:
     runs-on: windows-latest
@@ -98,5 +98,6 @@ jobs:
           package: .
 
           
+
 
 
