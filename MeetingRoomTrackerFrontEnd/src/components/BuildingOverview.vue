@@ -5,7 +5,7 @@
         style="background: #1e1e2f; border: 1px solid #2a2a3d; border-radius: 1rem; overflow: hidden;">
 
         <!-- CLICKABLE HEADER – click anywhere here to open/close the building -->
-        <div class="d-flex justify-content-between align-items-center p-4 cursor-pointer" @click="isOpen = !isOpen"
+        <div id="CLickBuilding" class="d-flex justify-content-between align-items-center p-4 cursor-pointer" @click="isOpen = !isOpen"
             style="background: #161625;">
 
             <!-- Left side: Building icon + name + "Vis/Skjul lokaler" text -->
