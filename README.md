@@ -4,7 +4,7 @@
 Meeting Room Tracker er et realtime-system, der giver et præcist overblik over tilgængeligheden af grupperum, mødelokaler og klasselokaler på Zealand. Systemet anvender bevægelsessensorer og Raspberry Pi-enheder til at registrere aktivitet i lokaler og formidler denne information til brugerne gennem en webbaseret grænseflade.
 
 ## Formål
-Projektet løser behovet for et hurtigt, pålideligt og automatiseret overblik over, hvilke lokaler der er ledige eller optagede—uden at brugerne skal afsøge campus fysisk.
+Projektet løser behovet for et hurtigt, pålideligt og automatiseret overblik over, hvilke lokaler der er ledige eller optagede uden at brugerne skal afsøge campus fysisk.
 
 ## Funktioner
 - Registrering af aktivitet via PIR-sensorer  
