@@ -34,6 +34,22 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
+  api-tests:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Postman CLI
+        run: |
+          powershell.exe -NoProfile -InputFormat None -ExecutionPolicy AllSigned -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://dl-cli.pstmn.io/install/win64.ps1'))"
+
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+
+      - name: Run API tests
+        run: |
+          postman collection run "48703564-63910bf5-8860-4363-9c7c-dab1b63a795e" -e "50542956-5002b33f-ce66-4ffe-bb65-ec9d32503427"
 
   deploy:
     runs-on: windows-latest
@@ -64,4 +80,5 @@ jobs:
           app-name: 'RoomMeetingTracker-2025-win'
           slot-name: 'Production'
           package: .
+
           
