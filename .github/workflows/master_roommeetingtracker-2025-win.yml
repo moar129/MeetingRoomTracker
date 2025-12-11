@@ -10,10 +10,11 @@ on:
   workflow_dispatch:
 
 jobs:
+
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -27,17 +28,19 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish -c Release -o "${{ env.DOTNET_ROOT }}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-          
-  unit-and-ui-tests:
+          path: ${{ env.DOTNET_ROOT }}/myapp
+
+
+  unit-tests:
     runs-on: windows-latest
     needs: build
+
     steps:
       - uses: actions/checkout@v4
 
@@ -46,12 +49,18 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Run ALL tests in MeetingRoomTrackerLibTests
-        run: dotnet test MeetingRoomTrackerLibTests/MeetingRoomTrackerLibTests.csproj --configuration Release --filter "FullyQualifiedName!~Selenium"
+      - name: Run all NON-Selenium tests
+        run: >
+          dotnet test MeetingRoomTrackerLibTests/MeetingRoomTrackerLibTests.csproj
+          --configuration Release
+          --no-build
+          --filter "FullyQualifiedName!~Selenium"
+
 
   api-tests:
     runs-on: windows-latest
     needs: build
+
     steps:
       - uses: actions/checkout@v4
 
@@ -67,21 +76,23 @@ jobs:
           postman collection run "48703564-63910bf5-8860-4363-9c7c-dab1b63a795e" -e "50542956-5002b33f-ce66-4ffe-bb65-ec9d32503427"
           postman collection run "50539382-829dc086-edc1-45f1-a771-9e4311462331" -e "50542956-5002b33f-ce66-4ffe-bb65-ec9d32503427"
 
+
   deploy:
     runs-on: windows-latest
-    needs: [build, unit-and-ui-tests, api-tests]
+    needs: [build, unit-tests, api-tests]
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     env:
-        DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+      DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -96,8 +107,3 @@ jobs:
           app-name: 'RoomMeetingTracker-2025-win'
           slot-name: 'Production'
           package: .
-
-          
-
-
-
