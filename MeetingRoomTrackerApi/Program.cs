@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Real Time updates through SignalR
-builder.Services.AddSignalR();
+
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
