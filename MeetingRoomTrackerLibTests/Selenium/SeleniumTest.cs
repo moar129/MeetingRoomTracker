@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace MeetingRoomTrackerLibTests.Selenium
     {
         private static readonly string DriverDirectory = "C:\\seleniumDrivers";
         private static IWebDriver _driver;
+        private static WebDriverWait _wait;
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
             _driver = new ChromeDriver(DriverDirectory);
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
         }
 
         [ClassCleanup]
@@ -43,9 +46,9 @@ namespace MeetingRoomTrackerLibTests.Selenium
         public void TestClickElement()
         {
             _driver.Navigate().GoToUrl("https://roommeetingtracker-2025-win-exd2g5hagtb3gnfa.swedencentral-01.azurewebsites.net/");
-            var element = _driver.FindElement(By.Id("app"));
+            var element = _driver.FindElement(By.Id("CLickBuilding"));
             element.Click();
-            Assert.IsNotNull(element);
+            
         }
     }
 }
