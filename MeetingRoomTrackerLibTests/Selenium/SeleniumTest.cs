@@ -91,7 +91,7 @@ namespace MeetingRoomTrackerLibTests.Selenium
             // Click Building D to expand it
             var buildingD = _driver.FindElement(By.XPath("//h3[contains(text(),'Bygning D')]"));
             buildingD.Click();
-            System.Threading.Thread.Sleep(1200); // wait for transition (fade) to finish
+            System.Threading.Thread.Sleep(1200); // wait for transition to finish
 
             // Find the room named "Rome"
             var roomRome = _driver.FindElement(By.XPath("//div[div/strong[text()='Rome']]"));
@@ -101,7 +101,7 @@ namespace MeetingRoomTrackerLibTests.Selenium
                 "arguments[0].scrollIntoView({block:'center', behavior:'instant'});", roomRome);
             System.Threading.Thread.Sleep(300); // give time for scrolling
 
-            // Click the room via JavaScript (always, no if/else)
+            // Click the room via JavaScript
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", roomRome);
         }
 
